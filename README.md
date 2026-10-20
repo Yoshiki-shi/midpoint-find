@@ -271,6 +271,9 @@ Google Mapsだと「A地点からB地点」の個別ルートしか見られな�
 ### 10-3.キャッチアップ不足の懸念
 
 キャッチアップ不足の段階では以下の懸念点があります。
+
+
+https://www.figma.com/design/1JqtErXbJqRyVapm0WnqNQ/midpoint-find%EF%BC%88%E4%BB%AE%EF%BC%89?node-id=0-1&t=y60tLUWqOyTd7ZI6-1
 1. **完成までのハードルが高い**
 Railsでの独自の算出ロジック（複数人のデータ処理やアルゴリズム設計）など、一筋縄ではいかない部分があるため一定の調査・学習時間を要する。
 
