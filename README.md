@@ -282,5 +282,5 @@ Railsでの独自の算出ロジック（複数人のデータ処理やアルゴ
 https://www.figma.com/design/1JqtErXbJqRyVapm0WnqNQ/midpoint-find%EF%BC%88%E4%BB%AE%EF%BC%89?node-id=0-1&t=y60tLUWqOyTd7ZI6-1
 
 ### ER図
-[midpoint-find（仮）.pdf](https://github.com/user-attachments/files/33717419/midpoint-find.pdf)
-[![Image from Gyazo](https://i.gyazo.com/3449fec2ba30f55611af6c59e81d32e0.png)](https://gyazo.com/3449fec2ba30f55611af6c59e81d32e0)
+[midpoint-find（仮） (1).pdf](https://github.com/user-attachments/files/33791835/midpoint-find.1.pdf)
+https://gyazo.com/ae705ae9197720b9046c63e4756e5193
