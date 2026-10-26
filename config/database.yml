@@ -1,0 +1,21 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: db
+  username: postgres
+  password: password
+  port: 5432
+
+development:
+  <<: *default
+  database: midpoint_find_development
+
+test:
+  <<: *default
+  database: midpoint_find_test
+
+production:
+  <<: *default
+  database: midpoint_find_production
+  password: <%= ENV["MIDPOINT_FIND_DATABASE_PASSWORD"] %>
