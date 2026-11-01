@@ -283,4 +283,7 @@ https://www.figma.com/design/1JqtErXbJqRyVapm0WnqNQ/midpoint-find%EF%BC%88%E4%BB
 
 ### ER図
 [20261023_midpoint-find（仮） .pdf](https://github.com/user-attachments/files/33872369/20261023_midpoint-find.pdf)
+
+[![Image from Gyazo](https://i.gyazo.com/74395ba0e6de6fe2c0c4b6cdb3a05aca.png)](https://gyazo.com/74395ba0e6de6fe2c0c4b6cdb3a05aca)
+=======
 [![Image from Gyazo](https://i.gyazo.com/74395ba0e6de6fe2c0c4b6cdb3a05aca.png)](https://gyazo.com/74395ba0e6de6fe2c0c4b6cdb3a05aca)
