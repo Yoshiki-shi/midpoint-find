@@ -1,6 +1,7 @@
 source "https://rubygems.org"
 
 ruby "3.2.2"
+gem 'bcrypt', '~> 3.1.7'
 
 group :development, :test do
   gem "rspec-rails", "~> 6.0"
