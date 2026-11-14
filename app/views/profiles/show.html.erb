@@ -1,0 +1,6 @@
+<h1>マイページ</h1>
+
+<p><strong>名前：</strong> <%= @user.name %></p>
+<p><strong>最寄り駅：</strong> <%= @user.nearest_station_name.presence || '未登録' %></p>
+
+<%= link_to 'プロフィールを編集する', edit_profile_path %>

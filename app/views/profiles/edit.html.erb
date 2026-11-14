@@ -1,0 +1,19 @@
+<h1>プロフィール編集</h1>
+
+<%= form_with model: @user, url: profile_path, local: true do |f| %>
+  <div class="field">
+    <%= f.label :name, "名前" %><br>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :nearest_station_name, "最寄り駅" %><br>
+    <%= f.text_field :nearest_station_name %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "更新する" %>
+  </div>
+<% end %>
+
+<%= link_to 'マイページに戻る', profile_path %>
