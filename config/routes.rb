@@ -11,4 +11,7 @@ Rails.application.routes.draw do
   post 'login', to: 'sessions#create'
   # ログアウト処理（セッションからユーザーIDを削除）
   delete 'logout', to: 'sessions#destroy'
+
+  # ユーザーのプロフィール（自分のデフォルト駅）管理用
+  resource :profile, only: %i[show edit update]
 end
