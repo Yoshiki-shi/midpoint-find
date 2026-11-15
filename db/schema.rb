@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_03_090934) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_15_055325) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,6 +20,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_03_090934) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "nearest_station_name"
+    t.float "nearest_station_lat"
+    t.float "nearest_station_lng"
   end
 
 end

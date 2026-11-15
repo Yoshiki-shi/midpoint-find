@@ -1,21 +1,24 @@
 class SessionsController < ApplicationController
   def new
   end
-  
+
   def create
-    user = User.find_by(email: params[:session][:email].downcase)
-    
-    if user && user.authenticate(params[:session][:password])
+    email = (params[:email] || params.dig(:session, :email)).to_s.downcase.strip
+    password = params[:password] || params.dig(:session, :password)
+
+    user = User.find_by(email: email)
+    if user&.authenticate(password)
+      reset_session
       session[:user_id] = user.id
-      redirect_to user root_path, notice: 'ログインしました！'
+      redirect_to root_path, notice: "ログインしました"
     else
-      flash.now[:danger] = 'メールアドレスまたはパスワードが正しくありません。'
-      render 'new' , status: :unprocessable_entity
+      flash.now[:alert] = "メールアドレスまたはパスワードが正しくありません"
+      render :new, status: :unprocessable_entity
     end
-  end 
-  
-  def destry
-    session.delete(:user_id)
-    redirect_to root_path, status: :see_pther, notice: 'ログアウトしました！'
+  end
+
+  def destroy
+    reset_session
+    redirect_to root_path, notice: "ログアウトしました", status: :see_other
   end
 end

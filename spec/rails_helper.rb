@@ -1,4 +1,16 @@
+require 'simplecov'
+SimpleCov.start 'rails' do
+  skip '/bin/'
+  skip '/db/'
+  skip '/spec/'
+  skip '/config/'
+end
+
 # -*- encoding: utf-8 -*-
+# -*- encoding: utf-8 -*-
+require 'bundler/setup' # 1. Gemの読み込み環境を整える
+require 'simplecov'     # 2. ここで初めて SimpleCov を読み込む
+
 SimpleCov.start 'rails' do
   add_filter '/spec/' # テストコード自体はカバレッジ集計から除外する
   add_filter '/config/'
@@ -40,4 +52,6 @@ RSpec.configure do |config|
 
   # ★ここに FactoryBot のメソッドを省略して書けるようにする設定を追加します
   config.include FactoryBot::Syntax::Methods
+
+  #config.include Devise::Test::IntegrationHelpers, type: :request
 end

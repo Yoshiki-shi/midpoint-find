@@ -16,6 +16,6 @@ class User < ApplicationRecord
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: true # ← ここを少しインデント（字下げ）を合わせるとキレイ！
                     
-  # パスワードの長さバリデーション（空でないこと、最低6文字以上）
-  validates :password, presence: true, length: { minimum: 6 }
+  # パスワードの長さバリデーション（新規作成時、またはパスワード変更時のみ検証）
+  validates :password, length: { minimum: 8 }, if: -> { new_record? || changes[:password_digest] }
 end
