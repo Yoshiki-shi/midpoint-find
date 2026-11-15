@@ -8,9 +8,9 @@
       "RSpec"
     ],
     "project_name": "Myapp",
-    "timestamp": "2026-11-15T09:18:37.571+00:00",
+    "timestamp": "2026-11-15T12:48:30.842+00:00",
     "root": "/myapp",
-    "commit": "e7674d4b462fa9b180fe5bc67e00684e6739a343",
+    "commit": "d359eaa378510855f87aed6163fe0c98e8ad2552",
     "primary_coverage": "line",
     "line_coverage": true,
     "branch_coverage": false,
@@ -18,12 +18,12 @@
   },
   "total": {
     "lines": {
-      "covered": 49,
-      "missed": 29,
-      "omitted": 75,
-      "total": 78,
-      "percent": 62.82051282051282,
-      "strength": 0.8974358974358975
+      "covered": 23,
+      "missed": 75,
+      "omitted": 91,
+      "total": 98,
+      "percent": 23.46938775510204,
+      "strength": 0.3163265306122449
     }
   },
   "coverage": {
@@ -93,34 +93,34 @@
         "end"
       ],
       "lines": [
-        1,
-        1,
+        0,
+        0,
         null,
-        1,
+        0,
         null,
-        1,
-        5,
-        null,
-        null,
-        1,
-        3,
+        0,
+        0,
         null,
         null,
-        1,
-        3,
-        1,
-        1,
+        0,
+        0,
+        null,
+        null,
+        0,
+        0,
+        0,
+        0,
         null,
         null,
         null,
-        1,
+        0,
         0,
         null,
         null
       ],
-      "lines_covered_percent": 92.3076923076923,
-      "covered_lines": 12,
-      "missed_lines": 1,
+      "lines_covered_percent": 0.0,
+      "covered_lines": 0,
+      "missed_lines": 13,
       "omitted_lines": 11,
       "total_lines": 13
     },
@@ -154,36 +154,36 @@
         "end"
       ],
       "lines": [
-        1,
-        1,
+        0,
+        0,
         null,
-        1,
+        0,
         0,
         null,
         null,
-        1,
-        1,
+        0,
+        0,
         null,
         null,
-        1,
-        1,
-        1,
-        1,
+        0,
+        0,
+        0,
+        0,
         null,
         0,
         null,
         null,
         null,
-        1,
+        0,
         null,
-        1,
-        1,
+        0,
+        0,
         null,
         null
       ],
-      "lines_covered_percent": 85.71428571428571,
-      "covered_lines": 12,
-      "missed_lines": 2,
+      "lines_covered_percent": 0.0,
+      "covered_lines": 0,
+      "missed_lines": 14,
       "omitted_lines": 12,
       "total_lines": 14
     },
@@ -215,34 +215,34 @@
         "end"
       ],
       "lines": [
-        1,
-        1,
+        0,
+        0,
         null,
         null,
-        1,
-        2,
-        2,
+        0,
+        0,
+        0,
         null,
-        2,
-        2,
-        2,
-        2,
-        2,
+        0,
+        0,
+        0,
+        0,
+        0,
         null,
         0,
         0,
         null,
         null,
         null,
-        1,
+        0,
         0,
         0,
         null,
         null
       ],
-      "lines_covered_percent": 73.33333333333333,
-      "covered_lines": 11,
-      "missed_lines": 4,
+      "lines_covered_percent": 0.0,
+      "covered_lines": 0,
+      "missed_lines": 15,
       "omitted_lines": 9,
       "total_lines": 15
     },
@@ -446,13 +446,13 @@
         "end"
       ],
       "lines": [
-        1,
-        1,
+        0,
+        0,
         null
       ],
-      "lines_covered_percent": 100.0,
-      "covered_lines": 2,
-      "missed_lines": 0,
+      "lines_covered_percent": 0.0,
+      "covered_lines": 0,
+      "missed_lines": 2,
       "omitted_lines": 1,
       "total_lines": 2
     },
@@ -481,44 +481,127 @@
         "end"
       ],
       "lines": [
-        1,
+        0,
         null,
-        1,
-        null,
-        null,
-        4,
+        0,
         null,
         null,
-        null,
-        1,
+        0,
         null,
         null,
         null,
-        1,
-        1,
+        0,
+        null,
+        null,
+        null,
+        0,
+        0,
         null,
         null,
         null,
         null,
-        4,
+        0,
         null
       ],
-      "lines_covered_percent": 100.0,
-      "covered_lines": 7,
-      "missed_lines": 0,
+      "lines_covered_percent": 0.0,
+      "covered_lines": 0,
+      "missed_lines": 7,
       "omitted_lines": 14,
       "total_lines": 7
+    },
+    "app/services/station_search_service.rb": {
+      "source": [
+        "require 'net/http'",
+        "require 'uri'",
+        "require 'json'",
+        "",
+        "class StationSearchService",
+        "  API_BASE_URL = 'https://express.heartrails.com/api/json'.freeze",
+        "",
+        "  def self.call(station_name)",
+        "    new(station_name).execute",
+        "  end",
+        "",
+        "  def initialize(station_name)",
+        "    @station_name = station_name",
+        "  end",
+        "",
+        "  def execute",
+        "    return nil if @station_name.blank?",
+        "",
+        "    uri = URI(\"#{API_BASE_URL}?method=getStations&name=#{URI.encode_www_form_component(@station_name)}\")",
+        "    response = Net::HTTP.get(uri)",
+        "    data = JSON.parse(response)",
+        "",
+        "    stations = data.dig('response', 'station')",
+        "    return nil if stations.blank?",
+        "",
+        "    # 最初の検索ヒット結果の緯度・経度を採用",
+        "    station = stations.is_a?(Array) ? stations.first : stations",
+        "    {",
+        "      lat: station['y']&.to_f,",
+        "      lng: station['x']&.to_f",
+        "    }",
+        "  rescue StandardError => e",
+        "    Rails.logger.error(\"StationSearchService Error: #{e.message}\")",
+        "    nil",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        1,
+        null,
+        1,
+        1,
+        null,
+        1,
+        2,
+        null,
+        null,
+        1,
+        2,
+        null,
+        null,
+        1,
+        2,
+        null,
+        2,
+        2,
+        2,
+        null,
+        2,
+        2,
+        null,
+        null,
+        1,
+        null,
+        1,
+        null,
+        null,
+        null,
+        0,
+        0,
+        null,
+        null
+      ],
+      "lines_covered_percent": 90.0,
+      "covered_lines": 18,
+      "missed_lines": 2,
+      "omitted_lines": 16,
+      "total_lines": 20
     }
   },
   "groups": {
     "Controllers": {
       "lines": {
-        "covered": 35,
-        "missed": 21,
+        "covered": 0,
+        "missed": 56,
         "omitted": 44,
         "total": 56,
-        "percent": 62.5,
-        "strength": 0.8928571428571429
+        "percent": 0.0,
+        "strength": 0.0
       },
       "files": [
         "app/controllers/application_controller.rb",
@@ -544,12 +627,12 @@
     },
     "Models": {
       "lines": {
-        "covered": 9,
-        "missed": 0,
+        "covered": 0,
+        "missed": 9,
         "omitted": 15,
         "total": 9,
-        "percent": 100.0,
-        "strength": 1.6666666666666667
+        "percent": 0.0,
+        "strength": 0.0
       },
       "files": [
         "app/models/application_record.rb",
@@ -623,6 +706,19 @@
       },
       "files": [
 
+      ]
+    },
+    "Ungrouped": {
+      "lines": {
+        "covered": 18,
+        "missed": 2,
+        "omitted": 16,
+        "total": 20,
+        "percent": 90.0,
+        "strength": 1.3
+      },
+      "files": [
+        "app/services/station_search_service.rb"
       ]
     }
   },
@@ -878,6 +974,96 @@
         },
         "app/models/user.rb": {
           "line": 100.0
+        }
+      }
+    },
+    {
+      "created_at": "2026-11-15T12:48:30Z",
+      "branch": "feature/station-search-service",
+      "commit": "d359eaa378510855f87aed6163fe0c98e8ad2552",
+      "totals": {
+        "line": 23.46
+      },
+      "groups": {
+        "Controllers": {
+          "line": 0.0
+        },
+        "Channels": {
+          "line": 0.0
+        },
+        "Models": {
+          "line": 0.0
+        },
+        "Mailers": {
+          "line": 0.0
+        },
+        "Helpers": {
+          "line": 100.0
+        },
+        "Views": {
+          "line": 100.0
+        },
+        "Jobs": {
+          "line": 0.0
+        },
+        "Libraries": {
+          "line": 100.0
+        },
+        "Ungrouped": {
+          "line": 90.0
+        }
+      },
+      "files": {
+        "app/channels/application_cable/channel.rb": {
+          "line": 0.0
+        },
+        "app/channels/application_cable/connection.rb": {
+          "line": 0.0
+        },
+        "app/controllers/application_controller.rb": {
+          "line": 0.0
+        },
+        "app/controllers/profiles_controller.rb": {
+          "line": 0.0
+        },
+        "app/controllers/sessions_controller.rb": {
+          "line": 0.0
+        },
+        "app/controllers/static_pages_controller.rb": {
+          "line": 0.0
+        },
+        "app/controllers/users_controller.rb": {
+          "line": 0.0
+        },
+        "app/helpers/application_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/profiles_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/sessions_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/static_pages_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/users_helper.rb": {
+          "line": 100.0
+        },
+        "app/jobs/application_job.rb": {
+          "line": 0.0
+        },
+        "app/mailers/application_mailer.rb": {
+          "line": 0.0
+        },
+        "app/models/application_record.rb": {
+          "line": 0.0
+        },
+        "app/models/user.rb": {
+          "line": 0.0
+        },
+        "app/services/station_search_service.rb": {
+          "line": 90.0
         }
       }
     }
