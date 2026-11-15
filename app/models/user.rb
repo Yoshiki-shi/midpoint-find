@@ -2,6 +2,9 @@ class User < ApplicationRecord
   # パスワードのセキュリティ設定（暗号化、確認用パスワードの一致チェックなど）
   has_secure_password
   
+  # ▼ ここにメンバーとの関連付けを追加！
+  has_many :members, dependent: :destroy
+
   # メールアドレスを小文字に変換するよ
   before_validation { email.downcase! }
   
@@ -14,7 +17,7 @@ class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: VALID_EMAIL_REGEX },
-                    uniqueness: true # ← ここを少しインデント（字下げ）を合わせるとキレイ！
+                    uniqueness: true
                     
   # パスワードの長さバリデーション（新規作成時、またはパスワード変更時のみ検証）
   validates :password, length: { minimum: 8 }, if: -> { new_record? || changes[:password_digest] }

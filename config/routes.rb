@@ -17,4 +17,7 @@ Rails.application.routes.draw do
   
   # パスワード変更用
   resource :password, only: %i[edit update]
+
+  # メンバー管理用
+  resources :members, except: %i[show new]
 end

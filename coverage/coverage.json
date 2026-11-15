@@ -8,9 +8,9 @@
       "RSpec"
     ],
     "project_name": "Myapp",
-    "timestamp": "2026-11-15T09:18:37.571+00:00",
+    "timestamp": "2026-11-15T10:26:14.856+00:00",
     "root": "/myapp",
-    "commit": "e7674d4b462fa9b180fe5bc67e00684e6739a343",
+    "commit": "d359eaa378510855f87aed6163fe0c98e8ad2552",
     "primary_coverage": "line",
     "line_coverage": true,
     "branch_coverage": false,
@@ -18,12 +18,12 @@
   },
   "total": {
     "lines": {
-      "covered": 49,
-      "missed": 29,
-      "omitted": 75,
-      "total": 78,
-      "percent": 62.82051282051282,
-      "strength": 0.8974358974358975
+      "covered": 67,
+      "missed": 44,
+      "omitted": 100,
+      "total": 111,
+      "percent": 60.36036036036036,
+      "strength": 1.054054054054054
     }
   },
   "coverage": {
@@ -99,15 +99,15 @@
         1,
         null,
         1,
+        10,
+        null,
+        null,
+        1,
         5,
         null,
         null,
         1,
-        3,
-        null,
-        null,
-        1,
-        3,
+        5,
         1,
         1,
         null,
@@ -123,6 +123,107 @@
       "missed_lines": 1,
       "omitted_lines": 11,
       "total_lines": 13
+    },
+    "app/controllers/members_controller.rb": {
+      "source": [
+        "class MembersController < ApplicationController",
+        "  before_action :require_login",
+        "  before_action :set_member, only: %i[edit update destroy]",
+        "",
+        "  def index",
+        "    @members = current_user.members",
+        "    @new_member = current_user.members.new",
+        "  end",
+        "",
+        "  def create",
+        "    @new_member = current_user.members.new(member_params)",
+        "    if @new_member.save  # @member から @new_member に修正！",
+        "      redirect_to members_path, notice: \"メンバーを登録しました\"",
+        "    else",
+        "      @members = current_user.members",
+        "      render :index, status: :unprocessable_entity",
+        "    end",
+        "  end",
+        "",
+        "  def edit",
+        "  end",
+        "",
+        "  def update",
+        "    if @member.update(member_params)",
+        "      redirect_to members_path, notice: \"メンバー情報を更新しました\"",
+        "    else",
+        "      render :edit, status: :unprocessable_entity",
+        "    end",
+        "  end",
+        "",
+        "  def destroy",
+        "    @member.destroy",
+        "    redirect_to members_path, notice: \"メンバーを削除しました\"",
+        "  end",
+        "",
+        "  private",
+        "",
+        "  def set_member",
+        "    @member = current_user.members.find(params[:id])",
+        "  end",
+        "",
+        "  def member_params",
+        "    params.require(:member).permit(:name, :station_name, :lat, :lng)",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        1,
+        null,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        1,
+        null,
+        0,
+        0,
+        null,
+        null,
+        null,
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        0,
+        null,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        null,
+        1,
+        2,
+        null,
+        null,
+        1,
+        2,
+        null,
+        null
+      ],
+      "lines_covered_percent": 88.0,
+      "covered_lines": 22,
+      "missed_lines": 3,
+      "omitted_lines": 20,
+      "total_lines": 25
     },
     "app/controllers/profiles_controller.rb": {
       "source": [
@@ -154,36 +255,36 @@
         "end"
       ],
       "lines": [
-        1,
-        1,
+        0,
+        0,
         null,
-        1,
+        0,
         0,
         null,
         null,
-        1,
-        1,
+        0,
+        0,
         null,
         null,
-        1,
-        1,
-        1,
-        1,
+        0,
+        0,
+        0,
+        0,
         null,
         0,
         null,
         null,
         null,
-        1,
+        0,
         null,
-        1,
-        1,
+        0,
+        0,
         null,
         null
       ],
-      "lines_covered_percent": 85.71428571428571,
-      "covered_lines": 12,
-      "missed_lines": 2,
+      "lines_covered_percent": 0.0,
+      "covered_lines": 0,
+      "missed_lines": 14,
       "omitted_lines": 12,
       "total_lines": 14
     },
@@ -220,14 +321,14 @@
         null,
         null,
         1,
-        2,
-        2,
+        4,
+        4,
         null,
-        2,
-        2,
-        2,
-        2,
-        2,
+        4,
+        4,
+        4,
+        4,
+        4,
         null,
         0,
         0,
@@ -323,6 +424,21 @@
     "app/helpers/application_helper.rb": {
       "source": [
         "module ApplicationHelper",
+        "end"
+      ],
+      "lines": [
+        1,
+        null
+      ],
+      "lines_covered_percent": 100.0,
+      "covered_lines": 1,
+      "missed_lines": 0,
+      "omitted_lines": 1,
+      "total_lines": 1
+    },
+    "app/helpers/members_helper.rb": {
+      "source": [
+        "module MembersHelper",
         "end"
       ],
       "lines": [
@@ -456,12 +572,42 @@
       "omitted_lines": 1,
       "total_lines": 2
     },
+    "app/models/member.rb": {
+      "source": [
+        "class Member < ApplicationRecord",
+        "  belongs_to :user",
+        "",
+        "  validates :name, presence: true, length: { maximum: 30 }",
+        "  validates :station_name, presence: true, length: { maximum: 50 }",
+        "  validates :lat, presence: true, numericality: true",
+        "  validates :lng, presence: true, numericality: true",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        null,
+        1,
+        1,
+        1,
+        1,
+        null
+      ],
+      "lines_covered_percent": 100.0,
+      "covered_lines": 6,
+      "missed_lines": 0,
+      "omitted_lines": 2,
+      "total_lines": 6
+    },
     "app/models/user.rb": {
       "source": [
         "class User < ApplicationRecord",
         "  # パスワードのセキュリティ設定（暗号化、確認用パスワードの一致チェックなど）",
         "  has_secure_password",
         "  ",
+        "  # ▼ ここにメンバーとの関連付けを追加！",
+        "  has_many :members, dependent: :destroy",
+        "",
         "  # メールアドレスを小文字に変換するよ",
         "  before_validation { email.downcase! }",
         "  ",
@@ -474,7 +620,7 @@
         "  VALID_EMAIL_REGEX = /\\A[\\w+\\-.]+@[a-z\\d\\-.]+\\.[a-z]+\\z/i",
         "  validates :email, presence: true, length: { maximum: 255 },",
         "                    format: { with: VALID_EMAIL_REGEX },",
-        "                    uniqueness: true # ← ここを少しインデント（字下げ）を合わせるとキレイ！",
+        "                    uniqueness: true",
         "                    ",
         "  # パスワードの長さバリデーション（新規作成時、またはパスワード変更時のみ検証）",
         "  validates :password, length: { minimum: 8 }, if: -> { new_record? || changes[:password_digest] }",
@@ -486,7 +632,10 @@
         1,
         null,
         null,
-        4,
+        1,
+        null,
+        null,
+        6,
         null,
         null,
         null,
@@ -500,28 +649,29 @@
         null,
         null,
         null,
-        4,
+        6,
         null
       ],
       "lines_covered_percent": 100.0,
-      "covered_lines": 7,
+      "covered_lines": 8,
       "missed_lines": 0,
-      "omitted_lines": 14,
-      "total_lines": 7
+      "omitted_lines": 16,
+      "total_lines": 8
     }
   },
   "groups": {
     "Controllers": {
       "lines": {
-        "covered": 35,
-        "missed": 21,
-        "omitted": 44,
-        "total": 56,
-        "percent": 62.5,
-        "strength": 0.8928571428571429
+        "covered": 45,
+        "missed": 36,
+        "omitted": 64,
+        "total": 81,
+        "percent": 55.55555555555556,
+        "strength": 1.0493827160493827
       },
       "files": [
         "app/controllers/application_controller.rb",
+        "app/controllers/members_controller.rb",
         "app/controllers/profiles_controller.rb",
         "app/controllers/sessions_controller.rb",
         "app/controllers/static_pages_controller.rb",
@@ -544,15 +694,16 @@
     },
     "Models": {
       "lines": {
-        "covered": 9,
+        "covered": 16,
         "missed": 0,
-        "omitted": 15,
-        "total": 9,
+        "omitted": 19,
+        "total": 16,
         "percent": 100.0,
-        "strength": 1.6666666666666667
+        "strength": 1.625
       },
       "files": [
         "app/models/application_record.rb",
+        "app/models/member.rb",
         "app/models/user.rb"
       ]
     },
@@ -571,15 +722,16 @@
     },
     "Helpers": {
       "lines": {
-        "covered": 5,
+        "covered": 6,
         "missed": 0,
-        "omitted": 5,
-        "total": 5,
+        "omitted": 6,
+        "total": 6,
         "percent": 100.0,
         "strength": 1.0
       },
       "files": [
         "app/helpers/application_helper.rb",
+        "app/helpers/members_helper.rb",
         "app/helpers/profiles_helper.rb",
         "app/helpers/sessions_helper.rb",
         "app/helpers/static_pages_helper.rb",
@@ -874,6 +1026,99 @@
           "line": 0.0
         },
         "app/models/application_record.rb": {
+          "line": 100.0
+        },
+        "app/models/user.rb": {
+          "line": 100.0
+        }
+      }
+    },
+    {
+      "created_at": "2026-11-15T10:26:14Z",
+      "branch": "feature/member-crud",
+      "commit": "d359eaa378510855f87aed6163fe0c98e8ad2552",
+      "totals": {
+        "line": 60.36
+      },
+      "groups": {
+        "Controllers": {
+          "line": 55.55
+        },
+        "Channels": {
+          "line": 0.0
+        },
+        "Models": {
+          "line": 100.0
+        },
+        "Mailers": {
+          "line": 0.0
+        },
+        "Helpers": {
+          "line": 100.0
+        },
+        "Views": {
+          "line": 100.0
+        },
+        "Jobs": {
+          "line": 0.0
+        },
+        "Libraries": {
+          "line": 100.0
+        }
+      },
+      "files": {
+        "app/channels/application_cable/channel.rb": {
+          "line": 0.0
+        },
+        "app/channels/application_cable/connection.rb": {
+          "line": 0.0
+        },
+        "app/controllers/application_controller.rb": {
+          "line": 92.3
+        },
+        "app/controllers/members_controller.rb": {
+          "line": 88.0
+        },
+        "app/controllers/profiles_controller.rb": {
+          "line": 0.0
+        },
+        "app/controllers/sessions_controller.rb": {
+          "line": 73.33
+        },
+        "app/controllers/static_pages_controller.rb": {
+          "line": 0.0
+        },
+        "app/controllers/users_controller.rb": {
+          "line": 0.0
+        },
+        "app/helpers/application_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/members_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/profiles_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/sessions_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/static_pages_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/users_helper.rb": {
+          "line": 100.0
+        },
+        "app/jobs/application_job.rb": {
+          "line": 0.0
+        },
+        "app/mailers/application_mailer.rb": {
+          "line": 0.0
+        },
+        "app/models/application_record.rb": {
+          "line": 100.0
+        },
+        "app/models/member.rb": {
           "line": 100.0
         },
         "app/models/user.rb": {
