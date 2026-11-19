@@ -1,0 +1,48 @@
+<div class="max-w-xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
+  <h1 class="text-2xl font-bold mb-6 text-gray-800">イベント作成 ＆ 参加者登録</h1>
+
+  <%= form_with(url: "#", local: true, class: "space-y-6") do |f| %>
+    
+    <!-- Stimulusコントローラーを適用する親要素 -->
+    <div data-controller="participant-form" class="space-y-4">
+      
+      <div class="flex justify-between items-center">
+        <h2 class="text-lg font-semibold text-gray-700">参加者と出発駅</h2>
+        <!-- 参加者行を追加するボタン -->
+        <button type="button" 
+                data-action="click->participant-form#add" 
+                class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-text text-white text-sm font-medium rounded-md transition">
+          + 参加者を追加
+        </button>
+      </div>
+
+      <!-- 動的フォームの行が挿入されるコンテナ -->
+      <div data-participant-form-target="container" class="space-y-3">
+        <!-- 初期表示用の空の行（必要に応じて最初から1行置いておくことも可能） -->
+      </div>
+
+      <!-- 動的追加用のテンプレート（非表示のひな形） -->
+      <template data-participant-form-target="template">
+        <div class="nested-form-item flex items-center gap-3 p-3 bg-gray-50 rounded-md border border-gray-200" data-new-record="true">
+          <input type="text" name="event[members][][name]" placeholder="参加者名" class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <input type="text" name="event[members][][station_name]" placeholder="出発駅名（例：高円寺）" class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+          
+          <!-- 削除ボタン -->
+          <button type="button" 
+                  data-action="click->participant-form#remove" 
+                  class="px-3 py-2 bg-red-500 hover:bg-red-600 text-white text-sm font-medium rounded-md transition">
+            削除
+          </button>
+          
+          <input type="hidden" name="event[members][][_destroy]" value="0">
+        </div>
+      </template>
+
+    </div>
+
+    <div>
+      <%= f.submit "中間駅を検索する", class: "w-full py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-md transition cursor-pointer" %>
+    </div>
+
+  <% end %>
+</div>
