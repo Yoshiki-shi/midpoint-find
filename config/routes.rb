@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'events/new'
+  get 'events/create'
+  get 'events/show'
   root "static_pages#top"
   get "up" => "rails/health#show", as: :rails_health_check
   get '/signup', to: 'users#new'
@@ -18,6 +21,9 @@ Rails.application.routes.draw do
   # パスワード変更用
   resource :password, only: %i[edit update]
 
-  #メンバー管理
+  # メンバー管理
   resources :members, except: %i[show new]
+
+  # ★ ここにイベント（中間駅検索・動的フォーム）用のルーティングを追加
+  resources :events, only: %i[new create show]
 end
