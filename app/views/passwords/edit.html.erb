@@ -1,0 +1,32 @@
+<h1>パスワード変更</h1>
+
+<%= form_with model: @user, url: password_path, method: :patch do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :current_password, "現在のパスワード" %>
+    <%= f.password_field :current_password %>
+  </div>
+
+  <div>
+    <%= f.label :password, "新しいパスワード" %>
+    <%= f.password_field :password %>
+  </div>
+
+  <div>
+    <%= f.label :password_confirmation, "新しいパスワード（確認）" %>
+    <%= f.password_field :password_confirmation %>
+  </div>
+
+  <div>
+    <%= f.submit "変更する" %>
+  </div>
+<% end %>
