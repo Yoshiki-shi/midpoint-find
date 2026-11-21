@@ -9,6 +9,8 @@ class User < ApplicationRecord
   # 空でないことと、文字数は50文字以内だよ
   validates :name, presence: true, length: { maximum: 50 }
 
+  has_many :members, dependent: :destroy
+
   # メールアドレスのバリデーション
   # 空でないことと、文字数は255文字以内、メールアドレスの形式であること、そして一意であることを確認する
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i

@@ -74,3 +74,5 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "webmock", "~> 3.36", :group => :test
