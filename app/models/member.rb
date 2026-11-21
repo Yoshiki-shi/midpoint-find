@@ -12,7 +12,7 @@ class Member < ApplicationRecord
     return if station_name.blank? || (lat.present? && lng.present? && !station_name_changed?)
 
     if defined?(StationSearchService)
-      info = StationSearchService.first_coordinates(station_name)
+      info = StationSearchService.call(station_name)
       if info
         self.lat = info[:lat]
         self.lng = info[:lng]

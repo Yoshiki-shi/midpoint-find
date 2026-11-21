@@ -8,9 +8,9 @@
       "RSpec"
     ],
     "project_name": "Myapp",
-    "timestamp": "2026-11-15T12:48:30.842+00:00",
+    "timestamp": "2026-11-21T13:32:18.795+00:00",
     "root": "/myapp",
-    "commit": "d359eaa378510855f87aed6163fe0c98e8ad2552",
+    "commit": "60eeb4b42d590c1c20dd1b084266de3e6f54f34d",
     "primary_coverage": "line",
     "line_coverage": true,
     "branch_coverage": false,
@@ -18,12 +18,12 @@
   },
   "total": {
     "lines": {
-      "covered": 23,
-      "missed": 75,
-      "omitted": 91,
-      "total": 98,
-      "percent": 23.46938775510204,
-      "strength": 0.3163265306122449
+      "covered": 87,
+      "missed": 56,
+      "omitted": 127,
+      "total": 143,
+      "percent": 60.83916083916084,
+      "strength": 0.7832167832167832
     }
   },
   "coverage": {
@@ -93,36 +93,168 @@
         "end"
       ],
       "lines": [
+        1,
+        1,
+        null,
+        1,
+        null,
+        1,
+        4,
+        null,
+        null,
+        1,
+        2,
+        null,
+        null,
+        1,
+        2,
         0,
         0,
         null,
-        0,
-        null,
-        0,
-        0,
         null,
         null,
+        1,
+        0,
+        null,
+        null
+      ],
+      "lines_covered_percent": 76.92307692307692,
+      "covered_lines": 10,
+      "missed_lines": 3,
+      "omitted_lines": 11,
+      "total_lines": 13
+    },
+    "app/controllers/events_controller.rb": {
+      "source": [
+        "class EventsController < ApplicationController",
+        "  def new",
+        "  end",
+        "",
+        "  def create",
+        "  end",
+        "",
+        "  def show",
+        "  end",
+        "end"
+      ],
+      "lines": [
         0,
         0,
         null,
         null,
         0,
-        0,
-        0,
-        0,
         null,
         null,
-        null,
-        0,
         0,
         null,
         null
       ],
       "lines_covered_percent": 0.0,
       "covered_lines": 0,
-      "missed_lines": 13,
-      "omitted_lines": 11,
-      "total_lines": 13
+      "missed_lines": 4,
+      "omitted_lines": 6,
+      "total_lines": 4
+    },
+    "app/controllers/members_controller.rb": {
+      "source": [
+        "class MembersController < ApplicationController",
+        "  before_action :require_login",
+        "  before_action :set_member, only: %i[edit update destroy]",
+        "",
+        "  def index",
+        "    @members = current_user.members.order(created_at: :asc)",
+        "    @member = current_user.members.build",
+        "  end",
+        "",
+        "  def create",
+        "    @member = current_user.members.build(member_params)",
+        "    if @member.save",
+        "      redirect_to members_path, notice: \"#{@member.name}（#{@member.station_name}駅）を登録しました\"",
+        "    else",
+        "      @members = current_user.members.order(created_at: :asc)",
+        "      render :index, status: :unprocessable_entity",
+        "    end",
+        "  end",
+        "",
+        "  def edit",
+        "  end",
+        "",
+        "  def update",
+        "    if @member.update(member_params)",
+        "      redirect_to members_path, notice: \"メンバー情報を更新しました\"",
+        "    else",
+        "      render :edit, status: :unprocessable_entity",
+        "    end",
+        "  end",
+        "",
+        "  def destroy",
+        "    @member.destroy!",
+        "    redirect_to members_path, notice: \"メンバーを削除しました\", status: :see_other",
+        "  end",
+        "",
+        "  private",
+        "",
+        "  def set_member",
+        "    @member = current_user.members.find(params[:id])",
+        "  end",
+        "",
+        "  def member_params",
+        "    params.require(:member).permit(:name, :station_name, :lat, :lng)",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        1,
+        null,
+        1,
+        0,
+        0,
+        null,
+        null,
+        1,
+        1,
+        1,
+        1,
+        null,
+        0,
+        0,
+        null,
+        null,
+        null,
+        1,
+        null,
+        null,
+        1,
+        0,
+        0,
+        null,
+        0,
+        null,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        null,
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        null,
+        null
+      ],
+      "lines_covered_percent": 72.0,
+      "covered_lines": 18,
+      "missed_lines": 7,
+      "omitted_lines": 20,
+      "total_lines": 25
     },
     "app/controllers/profiles_controller.rb": {
       "source": [
@@ -215,34 +347,34 @@
         "end"
       ],
       "lines": [
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        1,
+        1,
+        1,
+        1,
+        1,
+        null,
         0,
         0,
         null,
         null,
-        0,
-        0,
-        0,
         null,
-        0,
-        0,
-        0,
-        0,
-        0,
-        null,
-        0,
-        0,
-        null,
-        null,
-        null,
-        0,
+        1,
         0,
         0,
         null,
         null
       ],
-      "lines_covered_percent": 0.0,
-      "covered_lines": 0,
-      "missed_lines": 15,
+      "lines_covered_percent": 73.33333333333333,
+      "covered_lines": 11,
+      "missed_lines": 4,
       "omitted_lines": 9,
       "total_lines": 15
     },
@@ -323,6 +455,21 @@
     "app/helpers/application_helper.rb": {
       "source": [
         "module ApplicationHelper",
+        "end"
+      ],
+      "lines": [
+        1,
+        null
+      ],
+      "lines_covered_percent": 100.0,
+      "covered_lines": 1,
+      "missed_lines": 0,
+      "omitted_lines": 1,
+      "total_lines": 1
+    },
+    "app/helpers/events_helper.rb": {
+      "source": [
+        "module EventsHelper",
         "end"
       ],
       "lines": [
@@ -446,15 +593,70 @@
         "end"
       ],
       "lines": [
-        0,
-        0,
+        1,
+        1,
         null
       ],
-      "lines_covered_percent": 0.0,
-      "covered_lines": 0,
-      "missed_lines": 2,
+      "lines_covered_percent": 100.0,
+      "covered_lines": 2,
+      "missed_lines": 0,
       "omitted_lines": 1,
       "total_lines": 2
+    },
+    "app/models/member.rb": {
+      "source": [
+        "class Member < ApplicationRecord",
+        "  belongs_to :user",
+        "  before_validation :normalize_and_geocode_station",
+        "",
+        "  validates :name, presence: true, length: { maximum: 30 }",
+        "  validates :station_name, presence: true, length: { maximum: 50 }",
+        "",
+        "  private",
+        "",
+        "  def normalize_and_geocode_station",
+        "    self.station_name = station_name.to_s.gsub(/駅\\z/, \"\").strip",
+        "    return if station_name.blank? || (lat.present? && lng.present? && !station_name_changed?)",
+        "",
+        "    if defined?(StationSearchService)",
+        "      info = StationSearchService.call(station_name)",
+        "      if info",
+        "        self.lat = info[:lat]",
+        "        self.lng = info[:lng]",
+        "      end",
+        "    end",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        1,
+        null,
+        1,
+        1,
+        null,
+        1,
+        null,
+        1,
+        1,
+        1,
+        null,
+        1,
+        1,
+        1,
+        1,
+        1,
+        null,
+        null,
+        null,
+        null
+      ],
+      "lines_covered_percent": 100.0,
+      "covered_lines": 14,
+      "missed_lines": 0,
+      "omitted_lines": 8,
+      "total_lines": 14
     },
     "app/models/user.rb": {
       "source": [
@@ -469,6 +671,8 @@
         "  # 空でないことと、文字数は50文字以内だよ",
         "  validates :name, presence: true, length: { maximum: 50 }",
         "",
+        "  has_many :members, dependent: :destroy",
+        "",
         "  # メールアドレスのバリデーション",
         "  # 空でないことと、文字数は255文字以内、メールアドレスの形式であること、そして一意であることを確認する",
         "  VALID_EMAIL_REGEX = /\\A[\\w+\\-.]+@[a-z\\d\\-.]+\\.[a-z]+\\z/i",
@@ -481,33 +685,35 @@
         "end"
       ],
       "lines": [
-        0,
+        1,
         null,
-        0,
-        null,
-        null,
-        0,
+        1,
         null,
         null,
-        null,
-        0,
+        2,
         null,
         null,
         null,
-        0,
-        0,
+        1,
+        null,
+        1,
+        null,
+        null,
+        null,
+        1,
+        1,
         null,
         null,
         null,
         null,
-        0,
+        2,
         null
       ],
-      "lines_covered_percent": 0.0,
-      "covered_lines": 0,
-      "missed_lines": 7,
-      "omitted_lines": 14,
-      "total_lines": 7
+      "lines_covered_percent": 100.0,
+      "covered_lines": 8,
+      "missed_lines": 0,
+      "omitted_lines": 15,
+      "total_lines": 8
     },
     "app/services/station_search_service.rb": {
       "source": [
@@ -557,27 +763,27 @@
         1,
         null,
         1,
-        2,
+        3,
         null,
         null,
         1,
-        2,
+        3,
         null,
         null,
         1,
+        3,
+        null,
+        3,
+        3,
+        3,
+        null,
+        3,
+        3,
+        null,
+        null,
         2,
         null,
         2,
-        2,
-        2,
-        null,
-        2,
-        2,
-        null,
-        null,
-        1,
-        null,
-        1,
         null,
         null,
         null,
@@ -596,15 +802,17 @@
   "groups": {
     "Controllers": {
       "lines": {
-        "covered": 0,
-        "missed": 56,
-        "omitted": 44,
-        "total": 56,
-        "percent": 0.0,
-        "strength": 0.0
+        "covered": 39,
+        "missed": 46,
+        "omitted": 70,
+        "total": 85,
+        "percent": 45.88235294117647,
+        "strength": 0.5176470588235295
       },
       "files": [
         "app/controllers/application_controller.rb",
+        "app/controllers/events_controller.rb",
+        "app/controllers/members_controller.rb",
         "app/controllers/profiles_controller.rb",
         "app/controllers/sessions_controller.rb",
         "app/controllers/static_pages_controller.rb",
@@ -627,15 +835,16 @@
     },
     "Models": {
       "lines": {
-        "covered": 0,
-        "missed": 9,
-        "omitted": 15,
-        "total": 9,
-        "percent": 0.0,
-        "strength": 0.0
+        "covered": 24,
+        "missed": 0,
+        "omitted": 24,
+        "total": 24,
+        "percent": 100.0,
+        "strength": 1.0833333333333333
       },
       "files": [
         "app/models/application_record.rb",
+        "app/models/member.rb",
         "app/models/user.rb"
       ]
     },
@@ -654,15 +863,16 @@
     },
     "Helpers": {
       "lines": {
-        "covered": 5,
+        "covered": 6,
         "missed": 0,
-        "omitted": 5,
-        "total": 5,
+        "omitted": 6,
+        "total": 6,
         "percent": 100.0,
         "strength": 1.0
       },
       "files": [
         "app/helpers/application_helper.rb",
+        "app/helpers/events_helper.rb",
         "app/helpers/profiles_helper.rb",
         "app/helpers/sessions_helper.rb",
         "app/helpers/static_pages_helper.rb",
@@ -715,7 +925,7 @@
         "omitted": 16,
         "total": 20,
         "percent": 90.0,
-        "strength": 1.3
+        "strength": 1.8
       },
       "files": [
         "app/services/station_search_service.rb"
@@ -1061,6 +1271,108 @@
         },
         "app/models/user.rb": {
           "line": 0.0
+        },
+        "app/services/station_search_service.rb": {
+          "line": 90.0
+        }
+      }
+    },
+    {
+      "created_at": "2026-11-21T13:32:18Z",
+      "branch": "main",
+      "commit": "60eeb4b42d590c1c20dd1b084266de3e6f54f34d",
+      "totals": {
+        "line": 60.83
+      },
+      "groups": {
+        "Controllers": {
+          "line": 45.88
+        },
+        "Channels": {
+          "line": 0.0
+        },
+        "Models": {
+          "line": 100.0
+        },
+        "Mailers": {
+          "line": 0.0
+        },
+        "Helpers": {
+          "line": 100.0
+        },
+        "Views": {
+          "line": 100.0
+        },
+        "Jobs": {
+          "line": 0.0
+        },
+        "Libraries": {
+          "line": 100.0
+        },
+        "Ungrouped": {
+          "line": 90.0
+        }
+      },
+      "files": {
+        "app/channels/application_cable/channel.rb": {
+          "line": 0.0
+        },
+        "app/channels/application_cable/connection.rb": {
+          "line": 0.0
+        },
+        "app/controllers/application_controller.rb": {
+          "line": 76.92
+        },
+        "app/controllers/events_controller.rb": {
+          "line": 0.0
+        },
+        "app/controllers/members_controller.rb": {
+          "line": 72.0
+        },
+        "app/controllers/profiles_controller.rb": {
+          "line": 0.0
+        },
+        "app/controllers/sessions_controller.rb": {
+          "line": 73.33
+        },
+        "app/controllers/static_pages_controller.rb": {
+          "line": 0.0
+        },
+        "app/controllers/users_controller.rb": {
+          "line": 0.0
+        },
+        "app/helpers/application_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/events_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/profiles_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/sessions_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/static_pages_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/users_helper.rb": {
+          "line": 100.0
+        },
+        "app/jobs/application_job.rb": {
+          "line": 0.0
+        },
+        "app/mailers/application_mailer.rb": {
+          "line": 0.0
+        },
+        "app/models/application_record.rb": {
+          "line": 100.0
+        },
+        "app/models/member.rb": {
+          "line": 100.0
+        },
+        "app/models/user.rb": {
+          "line": 100.0
         },
         "app/services/station_search_service.rb": {
           "line": 90.0
