@@ -1,29 +1,17 @@
 Rails.application.routes.draw do
-  get 'events/new'
-  get 'events/create'
-  get 'events/show'
   root "static_pages#top"
   get "up" => "rails/health#show", as: :rails_health_check
-  get '/signup', to: 'users#new'
+  get "/signup", to: "users#new"
 
-  resources :users
+  resources :users, only: %i[new create]
+  get "login", to: "sessions#new"
+  post "login", to: "sessions#create"
+  delete "logout", to: "sessions#destroy"
 
-  # ログイン画面の表示
-  get 'login', to: 'sessions#new'
-  # ログイン処理（入力値の検証、セッションへの保存）
-  post 'login', to: 'sessions#create'
-  # ログアウト処理（セッションからユーザーIDを削除）
-  delete 'logout', to: 'sessions#destroy'
-
-  # ユーザーのプロフィール管理用
   resource :profile, only: %i[show edit update]
-  
-  # パスワード変更用
   resource :password, only: %i[edit update]
-
-  # メンバー管理
   resources :members, except: %i[show new]
 
-  # ★ ここにイベント（中間駅検索・動的フォーム）用のルーティングを追加
-  resources :events, only: %i[new create show]
+  resources :meeting_events, only: %i[new create show]
+  get "share/:token", to: "shares#show", as: :share_event
 end
