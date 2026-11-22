@@ -6,5 +6,10 @@ class SharesController < ApplicationController
       lng: @meeting_event.midpoint_lng,
       station_name: @meeting_event.midpoint_station_name
     )
+    title = @meeting_event.title.presence || "#{@meeting_event.midpoint_station_name}駅の集合場所提案"
+    set_meta_tags(
+      title: title,
+      og: { title: "#{title} | Meet Halfway" }
+    )
   end
 end

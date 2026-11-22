@@ -76,3 +76,5 @@ group :test do
 end
 
 gem "webmock", "~> 3.36", :group => :test
+
+gem "meta-tags", "~> 2.24"
