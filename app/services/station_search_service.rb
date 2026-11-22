@@ -9,6 +9,10 @@ class StationSearchService
     new(station_name).execute
   end
 
+  def self.first_coordinates(station_name)
+    call(station_name)
+  end
+
   def initialize(station_name)
     @station_name = station_name
   end

@@ -8,9 +8,9 @@
       "RSpec"
     ],
     "project_name": "Myapp",
-    "timestamp": "2026-11-21T14:02:31.911+00:00",
+    "timestamp": "2026-11-22T03:11:41.541+00:00",
     "root": "/myapp",
-    "commit": "81e3fb6208baddd5c42f5b10234a1426d5e34b22",
+    "commit": "7d06ba7f815cfc06af29d488887cd77f8b5daa78",
     "primary_coverage": "line",
     "line_coverage": true,
     "branch_coverage": false,
@@ -18,12 +18,12 @@
   },
   "total": {
     "lines": {
-      "covered": 125,
-      "missed": 36,
-      "omitted": 142,
-      "total": 161,
-      "percent": 77.63975155279503,
-      "strength": 1.3354037267080745
+      "covered": 215,
+      "missed": 58,
+      "omitted": 256,
+      "total": 273,
+      "percent": 78.75457875457876,
+      "strength": 1.5128205128205128
     }
   },
   "coverage": {
@@ -99,11 +99,11 @@
         1,
         null,
         1,
-        13,
+        14,
         null,
         null,
         1,
-        7,
+        8,
         null,
         null,
         1,
@@ -138,22 +138,135 @@
         "end"
       ],
       "lines": [
-        1,
-        1,
+        0,
+        0,
         null,
         null,
-        1,
+        0,
         null,
         null,
-        1,
+        0,
         null,
         null
       ],
-      "lines_covered_percent": 100.0,
-      "covered_lines": 4,
-      "missed_lines": 0,
+      "lines_covered_percent": 0.0,
+      "covered_lines": 0,
+      "missed_lines": 4,
       "omitted_lines": 6,
       "total_lines": 4
+    },
+    "app/controllers/meeting_events_controller.rb": {
+      "source": [
+        "class MeetingEventsController < ApplicationController",
+        "  def new",
+        "    @meeting_event = MeetingEvent.new",
+        "    2.times { @meeting_event.meeting_participants.build }",
+        "  end",
+        "",
+        "  def create",
+        "    @meeting_event = MeetingEvent.new(meeting_event_params)",
+        "    @meeting_event.user = current_user if logged_in?",
+        "",
+        "    if @meeting_event.valid?",
+        "      points = @meeting_event.meeting_participants.map { |p| { name: p.name, station_name: p.station_name, lat: p.lat, lng: p.lng } }",
+        "      calc = MidpointCalculatorService.calculate(points)",
+        "",
+        "      if calc",
+        "        @meeting_event.midpoint_station_name = calc[:station_name]",
+        "        @meeting_event.midpoint_line_name = calc[:line_name]",
+        "        @meeting_event.midpoint_lat = calc[:midpoint_lat]",
+        "        @meeting_event.midpoint_lng = calc[:midpoint_lng]",
+        "      end",
+        "",
+        "      if @meeting_event.save",
+        "        redirect_to meeting_event_path(@meeting_event), notice: \"中間駅とお店候補を算出しました！\"",
+        "        return",
+        "      end",
+        "    end",
+        "",
+        "    while @meeting_event.meeting_participants.size < 2",
+        "      @meeting_event.meeting_participants.build",
+        "    end",
+        "    render :new, status: :unprocessable_entity",
+        "  end",
+        "",
+        "  def show",
+        "    @meeting_event = MeetingEvent.includes(:meeting_participants).find(params[:id])",
+        "    @restaurants = PlaceSearchService.fetch_restaurants(",
+        "      lat: @meeting_event.midpoint_lat,",
+        "      lng: @meeting_event.midpoint_lng,",
+        "      station_name: @meeting_event.midpoint_station_name",
+        "    )",
+        "  end",
+        "",
+        "  private",
+        "",
+        "  def meeting_event_params",
+        "    params.require(:meeting_event).permit(",
+        "      :title,",
+        "      meeting_participants_attributes: %i[id name station_name _destroy]",
+        "    )",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        0,
+        0,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        1,
+        3,
+        1,
+        null,
+        1,
+        1,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        null,
+        null,
+        0,
+        0,
+        null,
+        0,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        null,
+        1,
+        1,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "lines_covered_percent": 81.48148148148148,
+      "covered_lines": 22,
+      "missed_lines": 5,
+      "omitted_lines": 24,
+      "total_lines": 27
     },
     "app/controllers/members_controller.rb": {
       "source": [
@@ -455,6 +568,37 @@
       "omitted_lines": 9,
       "total_lines": 15
     },
+    "app/controllers/shares_controller.rb": {
+      "source": [
+        "class SharesController < ApplicationController",
+        "  def show",
+        "    @meeting_event = MeetingEvent.includes(:meeting_participants).find_by!(share_token: params[:token])",
+        "    @restaurants = PlaceSearchService.fetch_restaurants(",
+        "      lat: @meeting_event.midpoint_lat,",
+        "      lng: @meeting_event.midpoint_lng,",
+        "      station_name: @meeting_event.midpoint_station_name",
+        "    )",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        1,
+        1,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "lines_covered_percent": 100.0,
+      "covered_lines": 4,
+      "missed_lines": 0,
+      "omitted_lines": 6,
+      "total_lines": 4
+    },
     "app/controllers/static_pages_controller.rb": {
       "source": [
         "class StaticPagesController < ApplicationController",
@@ -680,6 +824,118 @@
       "omitted_lines": 1,
       "total_lines": 2
     },
+    "app/models/meeting_event.rb": {
+      "source": [
+        "class MeetingEvent < ApplicationRecord",
+        "  belongs_to :user, optional: true",
+        "  has_many :meeting_participants, dependent: :destroy",
+        "  accepts_nested_attributes_for :meeting_participants, allow_destroy: true, reject_if: :all_blank",
+        "",
+        "  before_validation :ensure_share_token, on: :create",
+        "",
+        "  validates :share_token, presence: true, uniqueness: true",
+        "  validate :must_have_at_least_two_participants",
+        "",
+        "  private",
+        "",
+        "  def ensure_share_token",
+        "    self.share_token ||= SecureRandom.urlsafe_base64(12)",
+        "  end",
+        "",
+        "  def must_have_at_least_two_participants",
+        "    valid_participants = meeting_participants.reject(&:marked_for_destruction?).select { |p| p.station_name.present? }",
+        "    if valid_participants.size < 2",
+        "      errors.add(:base, \"出発駅を2名以上入力してください\")",
+        "    end",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        1,
+        1,
+        null,
+        1,
+        null,
+        1,
+        1,
+        null,
+        1,
+        null,
+        1,
+        2,
+        null,
+        null,
+        1,
+        6,
+        2,
+        0,
+        null,
+        null,
+        null
+      ],
+      "lines_covered_percent": 92.85714285714286,
+      "covered_lines": 13,
+      "missed_lines": 1,
+      "omitted_lines": 9,
+      "total_lines": 14
+    },
+    "app/models/meeting_participant.rb": {
+      "source": [
+        "class MeetingParticipant < ApplicationRecord",
+        "  belongs_to :meeting_event",
+        "",
+        "  before_validation :resolve_station_coordinates",
+        "",
+        "  validates :station_name, presence: true",
+        "",
+        "  private",
+        "",
+        "  def resolve_station_coordinates",
+        "    self.station_name = station_name.to_s.gsub(/駅\\z/, \"\").strip",
+        "    return if station_name.blank? || (lat.present? && lng.present?)",
+        "",
+        "    info = StationSearchService.first_coordinates(station_name)",
+        "    if info",
+        "      self.lat = info[:lat]",
+        "      self.lng = info[:lng]",
+        "    else",
+        "      errors.add(:station_name, \"「#{station_name}」の位置情報が見つかりませんでした。実在する駅名を入力してください\")",
+        "    end",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        null,
+        1,
+        null,
+        1,
+        null,
+        1,
+        null,
+        1,
+        4,
+        4,
+        null,
+        2,
+        2,
+        2,
+        2,
+        null,
+        0,
+        null,
+        null,
+        null
+      ],
+      "lines_covered_percent": 92.3076923076923,
+      "covered_lines": 12,
+      "missed_lines": 1,
+      "omitted_lines": 9,
+      "total_lines": 13
+    },
     "app/models/member.rb": {
       "source": [
         "class Member < ApplicationRecord",
@@ -792,6 +1048,260 @@
       "omitted_lines": 15,
       "total_lines": 8
     },
+    "app/services/midpoint_calculator_service.rb": {
+      "source": [
+        "require 'net/http'",
+        "require 'json'",
+        "",
+        "class MidpointCalculatorService",
+        "  EARTH_RADIUS_KM = 6371.0",
+        "",
+        "  def self.calculate(points)",
+        "    valid_points = points.select { |p| p[:lat].present? && p[:lng].present? }",
+        "    return nil if valid_points.size < 2",
+        "",
+        "    farthest_pair = valid_points.combination(2).max_by do |p1, p2|",
+        "      haversine_distance(p1[:lat], p1[:lng], p2[:lat], p2[:lng])",
+        "    end",
+        "",
+        "    mid_lat = (farthest_pair[0][:lat] + farthest_pair[1][:lat]) / 2.0",
+        "    mid_lng = (farthest_pair[0][:lng] + farthest_pair[1][:lng]) / 2.0",
+        "",
+        "    nearest_station = fetch_nearest_station(mid_lat, mid_lng)",
+        "",
+        "    {",
+        "      midpoint_lat: nearest_station ? nearest_station[:lat] : mid_lat,",
+        "      midpoint_lng: nearest_station ? nearest_station[:lng] : mid_lng,",
+        "      station_name: nearest_station ? nearest_station[:name] : \"中間地点周辺\",",
+        "      line_name: nearest_station ? nearest_station[:line] : \"\",",
+        "      farthest_pair: farthest_pair",
+        "    }",
+        "  end",
+        "",
+        "  def self.haversine_distance(lat1, lng1, lat2, lng2)",
+        "    return 0.0 if [lat1, lng1, lat2, lng2].any?(&:nil?)",
+        "",
+        "    dlat = (lat2 - lat1) * Math::PI / 180.0",
+        "    dlng = (lng2 - lng1) * Math::PI / 180.0",
+        "    a = Math.sin(dlat / 2)**2 +",
+        "        Math.cos(lat1 * Math::PI / 180.0) * Math.cos(lat2 * Math::PI / 180.0) * Math.sin(dlng / 2)**2",
+        "    (2 * EARTH_RADIUS_KM * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))).round(1)",
+        "  end",
+        "",
+        "  def self.fetch_nearest_station(lat, lng)",
+        "    uri = URI.parse(\"https://express.heartrails.com/api/json\")",
+        "    uri.query = URI.encode_www_form(method: \"getStations\", x: lng.round(6), y: lat.round(6))",
+        "    res = Net::HTTP.get_response(uri)",
+        "    return nil unless res.is_a?(Net::HTTPSuccess)",
+        "",
+        "    stations = JSON.parse(res.body).dig(\"response\", \"station\") || []",
+        "    first = stations.first",
+        "    return nil unless first",
+        "",
+        "    { name: first[\"name\"], line: first[\"line\"], lat: first[\"y\"].to_f, lng: first[\"x\"].to_f }",
+        "  rescue StandardError",
+        "    nil",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        null,
+        1,
+        1,
+        null,
+        1,
+        7,
+        2,
+        null,
+        2,
+        4,
+        null,
+        null,
+        2,
+        2,
+        null,
+        2,
+        null,
+        null,
+        4,
+        2,
+        2,
+        2,
+        null,
+        null,
+        null,
+        null,
+        1,
+        8,
+        null,
+        8,
+        8,
+        8,
+        null,
+        8,
+        null,
+        null,
+        1,
+        2,
+        2,
+        2,
+        2,
+        null,
+        2,
+        2,
+        2,
+        null,
+        2,
+        null,
+        0,
+        null,
+        null
+      ],
+      "lines_covered_percent": 96.875,
+      "covered_lines": 31,
+      "missed_lines": 1,
+      "omitted_lines": 21,
+      "total_lines": 32
+    },
+    "app/services/place_search_service.rb": {
+      "source": [
+        "require 'net/http'",
+        "require 'uri'",
+        "require 'json'",
+        "",
+        "class PlaceSearchService",
+        "  NEARBY_SEARCH_URL = \"https://maps.googleapis.com/maps/api/place/nearbysearch/json\"",
+        "",
+        "  def self.fetch_restaurants(lat:, lng:, station_name:, keyword: \"居酒屋\")",
+        "    api_key = ENV[\"GOOGLE_MAPS_API_KEY\"]",
+        "    return fallback_restaurants(station_name) if api_key.blank? || lat.blank? || lng.blank?",
+        "",
+        "    uri = URI.parse(NEARBY_SEARCH_URL)",
+        "    uri.query = URI.encode_www_form(",
+        "      location: \"#{lat},#{lng}\",",
+        "      radius: 800,",
+        "      type: \"restaurant\",",
+        "      keyword: keyword,",
+        "      language: \"ja\",",
+        "      key: api_key",
+        "    )",
+        "",
+        "    res = Net::HTTP.get_response(uri)",
+        "    return fallback_restaurants(station_name) unless res.is_a?(Net::HTTPSuccess)",
+        "",
+        "    results = JSON.parse(res.body)[\"results\"] || []",
+        "    return fallback_restaurants(station_name) if results.empty?",
+        "",
+        "    results.first(3).map do |place|",
+        "      {",
+        "        name: place[\"name\"],",
+        "        rating: place[\"rating\"] || \"3.8\",",
+        "        vicinity: place[\"vicinity\"] || \"#{station_name}駅周辺\",",
+        "        maps_url: \"https://www.google.com/maps/search/?api=1&query=#{URI.encode_www_form_component(place['name'])}&query_place_id=#{place['place_id']}\"",
+        "      }",
+        "    end",
+        "  rescue StandardError => e",
+        "    Rails.logger.error(\"PlaceSearchService Error: #{e.message}\")",
+        "    fallback_restaurants(station_name)",
+        "  end",
+        "",
+        "  def self.fallback_restaurants(station_name)",
+        "    [",
+        "      {",
+        "        name: \"#{station_name}駅前 個室ダイニング 和み\",",
+        "        rating: \"4.2\",",
+        "        vicinity: \"#{station_name}駅 徒歩2分（Googleマップで周辺検索）\",",
+        "        maps_url: \"https://www.google.com/maps/search/?api=1&query=#{URI.encode_www_form_component(\"#{station_name}駅 居酒屋 個室\")}\"",
+        "      },",
+        "      {",
+        "        name: \"ビストロ＆バル #{station_name}テラス\",",
+        "        rating: \"4.1\",",
+        "        vicinity: \"#{station_name}駅 徒歩3分（Googleマップで周辺検索）\",",
+        "        maps_url: \"https://www.google.com/maps/search/?api=1&query=#{URI.encode_www_form_component(\"#{station_name}駅 イタリアン バル\")}\"",
+        "      },",
+        "      {",
+        "        name: \"炭火やきとり・鮮魚 #{station_name}酒場\",",
+        "        rating: \"4.0\",",
+        "        vicinity: \"#{station_name}駅 徒歩1分（Googleマップで周辺検索）\",",
+        "        maps_url: \"https://www.google.com/maps/search/?api=1&query=#{URI.encode_www_form_component(\"#{station_name}駅 焼き鳥 居酒屋\")}\"",
+        "      }",
+        "    ]",
+        "  end",
+        "end"
+      ],
+      "lines": [
+        1,
+        1,
+        1,
+        null,
+        1,
+        1,
+        null,
+        1,
+        2,
+        2,
+        null,
+        0,
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        0,
+        0,
+        null,
+        0,
+        0,
+        null,
+        0,
+        null,
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        0,
+        0,
+        null,
+        null,
+        1,
+        null,
+        null,
+        2,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "lines_covered_percent": 50.0,
+      "covered_lines": 10,
+      "missed_lines": 10,
+      "omitted_lines": 43,
+      "total_lines": 20
+    },
     "app/services/station_search_service.rb": {
       "source": [
         "require 'net/http'",
@@ -803,6 +1313,10 @@
         "",
         "  def self.call(station_name)",
         "    new(station_name).execute",
+        "  end",
+        "",
+        "  def self.first_coordinates(station_name)",
+        "    call(station_name)",
         "  end",
         "",
         "  def initialize(station_name)",
@@ -840,27 +1354,31 @@
         1,
         null,
         1,
-        3,
+        5,
         null,
         null,
         1,
-        3,
+        2,
         null,
         null,
         1,
-        3,
-        null,
-        3,
-        3,
-        3,
-        null,
-        3,
-        3,
+        5,
         null,
         null,
-        2,
+        1,
+        5,
         null,
-        2,
+        5,
+        5,
+        5,
+        null,
+        5,
+        5,
+        null,
+        null,
+        4,
+        null,
+        4,
         null,
         null,
         null,
@@ -869,30 +1387,32 @@
         null,
         null
       ],
-      "lines_covered_percent": 90.0,
-      "covered_lines": 18,
+      "lines_covered_percent": 90.9090909090909,
+      "covered_lines": 20,
       "missed_lines": 2,
-      "omitted_lines": 16,
-      "total_lines": 20
+      "omitted_lines": 18,
+      "total_lines": 22
     }
   },
   "groups": {
     "Controllers": {
       "lines": {
-        "covered": 77,
-        "missed": 26,
-        "omitted": 85,
-        "total": 103,
-        "percent": 74.75728155339806,
-        "strength": 1.2718446601941749
+        "covered": 99,
+        "missed": 35,
+        "omitted": 115,
+        "total": 134,
+        "percent": 73.88059701492537,
+        "strength": 1.171641791044776
       },
       "files": [
         "app/controllers/application_controller.rb",
         "app/controllers/events_controller.rb",
+        "app/controllers/meeting_events_controller.rb",
         "app/controllers/members_controller.rb",
         "app/controllers/passwords_controller.rb",
         "app/controllers/profiles_controller.rb",
         "app/controllers/sessions_controller.rb",
+        "app/controllers/shares_controller.rb",
         "app/controllers/static_pages_controller.rb",
         "app/controllers/users_controller.rb"
       ]
@@ -913,15 +1433,17 @@
     },
     "Models": {
       "lines": {
-        "covered": 24,
-        "missed": 0,
-        "omitted": 24,
-        "total": 24,
-        "percent": 100.0,
-        "strength": 1.75
+        "covered": 49,
+        "missed": 2,
+        "omitted": 42,
+        "total": 51,
+        "percent": 96.07843137254902,
+        "strength": 1.6470588235294117
       },
       "files": [
         "app/models/application_record.rb",
+        "app/models/meeting_event.rb",
+        "app/models/meeting_participant.rb",
         "app/models/member.rb",
         "app/models/user.rb"
       ]
@@ -998,14 +1520,16 @@
     },
     "Ungrouped": {
       "lines": {
-        "covered": 18,
-        "missed": 2,
-        "omitted": 16,
-        "total": 20,
-        "percent": 90.0,
-        "strength": 1.8
+        "covered": 61,
+        "missed": 13,
+        "omitted": 82,
+        "total": 74,
+        "percent": 82.43243243243244,
+        "strength": 2.2432432432432434
       },
       "files": [
+        "app/services/midpoint_calculator_service.rb",
+        "app/services/place_search_service.rb",
         "app/services/station_search_service.rb"
       ]
     }
@@ -1559,6 +2083,129 @@
         },
         "app/services/station_search_service.rb": {
           "line": 90.0
+        }
+      }
+    },
+    {
+      "created_at": "2026-11-22T03:11:41Z",
+      "branch": "test/midpoint-and-places-specs",
+      "commit": "7d06ba7f815cfc06af29d488887cd77f8b5daa78",
+      "totals": {
+        "line": 78.75
+      },
+      "groups": {
+        "Controllers": {
+          "line": 73.88
+        },
+        "Channels": {
+          "line": 0.0
+        },
+        "Models": {
+          "line": 96.07
+        },
+        "Mailers": {
+          "line": 0.0
+        },
+        "Helpers": {
+          "line": 100.0
+        },
+        "Views": {
+          "line": 100.0
+        },
+        "Jobs": {
+          "line": 0.0
+        },
+        "Libraries": {
+          "line": 100.0
+        },
+        "Ungrouped": {
+          "line": 82.43
+        }
+      },
+      "files": {
+        "app/channels/application_cable/channel.rb": {
+          "line": 0.0
+        },
+        "app/channels/application_cable/connection.rb": {
+          "line": 0.0
+        },
+        "app/controllers/application_controller.rb": {
+          "line": 92.3
+        },
+        "app/controllers/events_controller.rb": {
+          "line": 0.0
+        },
+        "app/controllers/meeting_events_controller.rb": {
+          "line": 81.48
+        },
+        "app/controllers/members_controller.rb": {
+          "line": 72.0
+        },
+        "app/controllers/passwords_controller.rb": {
+          "line": 77.77
+        },
+        "app/controllers/profiles_controller.rb": {
+          "line": 85.71
+        },
+        "app/controllers/sessions_controller.rb": {
+          "line": 73.33
+        },
+        "app/controllers/shares_controller.rb": {
+          "line": 100.0
+        },
+        "app/controllers/static_pages_controller.rb": {
+          "line": 0.0
+        },
+        "app/controllers/users_controller.rb": {
+          "line": 50.0
+        },
+        "app/helpers/application_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/events_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/profiles_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/sessions_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/static_pages_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/users_helper.rb": {
+          "line": 100.0
+        },
+        "app/jobs/application_job.rb": {
+          "line": 0.0
+        },
+        "app/mailers/application_mailer.rb": {
+          "line": 0.0
+        },
+        "app/models/application_record.rb": {
+          "line": 100.0
+        },
+        "app/models/meeting_event.rb": {
+          "line": 92.85
+        },
+        "app/models/meeting_participant.rb": {
+          "line": 92.3
+        },
+        "app/models/member.rb": {
+          "line": 100.0
+        },
+        "app/models/user.rb": {
+          "line": 100.0
+        },
+        "app/services/midpoint_calculator_service.rb": {
+          "line": 96.87
+        },
+        "app/services/place_search_service.rb": {
+          "line": 50.0
+        },
+        "app/services/station_search_service.rb": {
+          "line": 90.9
         }
       }
     }
