@@ -673,6 +673,129 @@
             "line": 90.9
           }
         }
+      },
+      {
+        "created_at": "2026-11-22T03:16:04Z",
+        "branch": "test/system-and-coverage-80",
+        "commit": "0ceb552c7dff448e6d2efcc6528a3edd43f0b879",
+        "totals": {
+          "line": 83.51
+        },
+        "groups": {
+          "Controllers": {
+            "line": 76.81
+          },
+          "Channels": {
+            "line": 0.0
+          },
+          "Models": {
+            "line": 98.03
+          },
+          "Mailers": {
+            "line": 0.0
+          },
+          "Helpers": {
+            "line": 100.0
+          },
+          "Views": {
+            "line": 100.0
+          },
+          "Jobs": {
+            "line": 0.0
+          },
+          "Libraries": {
+            "line": 100.0
+          },
+          "Ungrouped": {
+            "line": 93.24
+          }
+        },
+        "files": {
+          "app/channels/application_cable/channel.rb": {
+            "line": 0.0
+          },
+          "app/channels/application_cable/connection.rb": {
+            "line": 0.0
+          },
+          "app/controllers/application_controller.rb": {
+            "line": 92.3
+          },
+          "app/controllers/events_controller.rb": {
+            "line": 0.0
+          },
+          "app/controllers/meeting_events_controller.rb": {
+            "line": 100.0
+          },
+          "app/controllers/members_controller.rb": {
+            "line": 72.0
+          },
+          "app/controllers/passwords_controller.rb": {
+            "line": 77.77
+          },
+          "app/controllers/profiles_controller.rb": {
+            "line": 85.71
+          },
+          "app/controllers/sessions_controller.rb": {
+            "line": 73.33
+          },
+          "app/controllers/shares_controller.rb": {
+            "line": 100.0
+          },
+          "app/controllers/static_pages_controller.rb": {
+            "line": 0.0
+          },
+          "app/controllers/users_controller.rb": {
+            "line": 50.0
+          },
+          "app/helpers/application_helper.rb": {
+            "line": 100.0
+          },
+          "app/helpers/events_helper.rb": {
+            "line": 100.0
+          },
+          "app/helpers/profiles_helper.rb": {
+            "line": 100.0
+          },
+          "app/helpers/sessions_helper.rb": {
+            "line": 100.0
+          },
+          "app/helpers/static_pages_helper.rb": {
+            "line": 100.0
+          },
+          "app/helpers/users_helper.rb": {
+            "line": 100.0
+          },
+          "app/jobs/application_job.rb": {
+            "line": 0.0
+          },
+          "app/mailers/application_mailer.rb": {
+            "line": 0.0
+          },
+          "app/models/application_record.rb": {
+            "line": 100.0
+          },
+          "app/models/meeting_event.rb": {
+            "line": 100.0
+          },
+          "app/models/meeting_participant.rb": {
+            "line": 92.3
+          },
+          "app/models/member.rb": {
+            "line": 100.0
+          },
+          "app/models/user.rb": {
+            "line": 100.0
+          },
+          "app/services/midpoint_calculator_service.rb": {
+            "line": 96.87
+          },
+          "app/services/place_search_service.rb": {
+            "line": 90.0
+          },
+          "app/services/station_search_service.rb": {
+            "line": 90.9
+          }
+        }
       }
     ]
   }

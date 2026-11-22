@@ -8,9 +8,9 @@
       "RSpec"
     ],
     "project_name": "Myapp",
-    "timestamp": "2026-11-22T03:11:41.541+00:00",
+    "timestamp": "2026-11-22T03:16:04.813+00:00",
     "root": "/myapp",
-    "commit": "7d06ba7f815cfc06af29d488887cd77f8b5daa78",
+    "commit": "0ceb552c7dff448e6d2efcc6528a3edd43f0b879",
     "primary_coverage": "line",
     "line_coverage": true,
     "branch_coverage": false,
@@ -18,12 +18,12 @@
   },
   "total": {
     "lines": {
-      "covered": 215,
-      "missed": 58,
-      "omitted": 256,
-      "total": 273,
-      "percent": 78.75457875457876,
-      "strength": 1.5128205128205128
+      "covered": 233,
+      "missed": 46,
+      "omitted": 281,
+      "total": 279,
+      "percent": 83.51254480286738,
+      "strength": 2.412186379928315
     }
   },
   "coverage": {
@@ -99,11 +99,11 @@
         1,
         null,
         1,
-        14,
+        19,
         null,
         null,
         1,
-        8,
+        13,
         null,
         null,
         1,
@@ -212,59 +212,59 @@
       "lines": [
         1,
         1,
-        0,
-        0,
+        2,
+        6,
+        null,
+        null,
+        1,
+        3,
+        3,
+        null,
+        3,
+        6,
+        2,
+        null,
+        2,
+        2,
+        2,
+        2,
+        2,
+        null,
+        null,
+        2,
+        2,
+        2,
+        null,
         null,
         null,
         1,
         1,
+        null,
+        1,
+        null,
+        null,
+        1,
+        2,
+        2,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
         1,
         null,
         1,
         3,
-        1,
-        null,
-        1,
-        1,
-        1,
-        1,
-        1,
-        null,
-        null,
-        1,
-        1,
-        1,
-        null,
-        null,
-        null,
-        0,
-        0,
-        null,
-        0,
-        null,
-        null,
-        1,
-        1,
-        1,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        1,
-        null,
-        1,
-        1,
         null,
         null,
         null,
         null,
         null
       ],
-      "lines_covered_percent": 81.48148148148148,
-      "covered_lines": 22,
-      "missed_lines": 5,
+      "lines_covered_percent": 100.0,
+      "covered_lines": 27,
+      "missed_lines": 0,
       "omitted_lines": 24,
       "total_lines": 27
     },
@@ -578,15 +578,25 @@
         "      lng: @meeting_event.midpoint_lng,",
         "      station_name: @meeting_event.midpoint_station_name",
         "    )",
+        "    title = @meeting_event.title.presence || \"#{@meeting_event.midpoint_station_name}駅の集合場所提案\"",
+        "    set_meta_tags(",
+        "      title: title,",
+        "      og: { title: \"#{title} | Meet Halfway\" }",
+        "    )",
         "  end",
         "end"
       ],
       "lines": [
         1,
         1,
-        1,
-        1,
+        2,
+        2,
         null,
+        null,
+        null,
+        null,
+        2,
+        2,
         null,
         null,
         null,
@@ -594,15 +604,21 @@
         null
       ],
       "lines_covered_percent": 100.0,
-      "covered_lines": 4,
+      "covered_lines": 6,
       "missed_lines": 0,
-      "omitted_lines": 6,
-      "total_lines": 4
+      "omitted_lines": 9,
+      "total_lines": 6
     },
     "app/controllers/static_pages_controller.rb": {
       "source": [
         "class StaticPagesController < ApplicationController",
         "  def top",
+        "  end",
+        "",
+        "  def terms",
+        "  end",
+        "",
+        "  def privacy",
         "  end",
         "end"
       ],
@@ -610,13 +626,19 @@
         0,
         0,
         null,
+        null,
+        0,
+        null,
+        null,
+        0,
+        null,
         null
       ],
       "lines_covered_percent": 0.0,
       "covered_lines": 0,
-      "missed_lines": 2,
-      "omitted_lines": 2,
-      "total_lines": 2
+      "missed_lines": 4,
+      "omitted_lines": 6,
+      "total_lines": 4
     },
     "app/controllers/users_controller.rb": {
       "source": [
@@ -676,17 +698,57 @@
     "app/helpers/application_helper.rb": {
       "source": [
         "module ApplicationHelper",
+        "  def default_meta_tags",
+        "    {",
+        "      site: \"Meet Halfway\",",
+        "      reverse: true,",
+        "      separator: \"|\",",
+        "      description: \"参加者の出発駅から最も遠い2人の中間駅と周辺のお店候補をかんたんに提案・共有できるWebアプリ\",",
+        "      keywords: \"中間駅, 集合場所, 飲み会, 幹事, 路線, 飲食店\",",
+        "      og: {",
+        "        site_name: :site,",
+        "        title: :title,",
+        "        description: :description,",
+        "        type: \"website\",",
+        "        url: request.original_url,",
+        "        locale: \"ja_JP\"",
+        "      },",
+        "      twitter: {",
+        "        card: \"summary_large_image\"",
+        "      }",
+        "    }",
+        "  end",
         "end"
       ],
       "lines": [
         1,
+        1,
+        null,
+        11,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
         null
       ],
       "lines_covered_percent": 100.0,
-      "covered_lines": 1,
+      "covered_lines": 3,
       "missed_lines": 0,
-      "omitted_lines": 1,
-      "total_lines": 1
+      "omitted_lines": 19,
+      "total_lines": 3
     },
     "app/helpers/events_helper.rb": {
       "source": [
@@ -864,20 +926,20 @@
         1,
         null,
         1,
-        2,
+        7,
         null,
         null,
         1,
-        6,
+        19,
+        7,
         2,
-        0,
         null,
         null,
         null
       ],
-      "lines_covered_percent": 92.85714285714286,
-      "covered_lines": 13,
-      "missed_lines": 1,
+      "lines_covered_percent": 100.0,
+      "covered_lines": 14,
+      "missed_lines": 0,
       "omitted_lines": 9,
       "total_lines": 14
     },
@@ -917,13 +979,13 @@
         1,
         null,
         1,
-        4,
-        4,
+        12,
+        12,
         null,
-        2,
-        2,
-        2,
-        2,
+        8,
+        8,
+        8,
+        8,
         null,
         0,
         null,
@@ -1112,48 +1174,48 @@
         1,
         null,
         1,
-        7,
-        2,
+        10,
+        3,
         null,
-        2,
-        4,
-        null,
-        null,
-        2,
-        2,
-        null,
-        2,
+        3,
+        5,
         null,
         null,
-        4,
-        2,
-        2,
-        2,
+        3,
+        3,
+        null,
+        3,
         null,
         null,
+        6,
+        3,
+        3,
+        3,
         null,
         null,
-        1,
-        8,
-        null,
-        8,
-        8,
-        8,
-        null,
-        8,
         null,
         null,
         1,
-        2,
-        2,
-        2,
-        2,
+        13,
         null,
-        2,
-        2,
-        2,
+        13,
+        13,
+        13,
         null,
-        2,
+        13,
+        null,
+        null,
+        1,
+        3,
+        3,
+        3,
+        3,
+        null,
+        3,
+        3,
+        3,
+        null,
+        3,
         null,
         0,
         null,
@@ -1240,28 +1302,28 @@
         1,
         null,
         1,
-        2,
-        2,
+        6,
+        6,
         null,
-        0,
-        0,
-        null,
-        null,
+        1,
+        1,
         null,
         null,
         null,
         null,
         null,
         null,
-        0,
-        0,
         null,
-        0,
-        0,
         null,
-        0,
+        1,
+        1,
         null,
-        0,
+        1,
+        1,
+        null,
+        1,
+        null,
+        3,
         null,
         null,
         null,
@@ -1275,7 +1337,7 @@
         1,
         null,
         null,
-        2,
+        5,
         null,
         null,
         null,
@@ -1296,9 +1358,9 @@
         null,
         null
       ],
-      "lines_covered_percent": 50.0,
-      "covered_lines": 10,
-      "missed_lines": 10,
+      "lines_covered_percent": 90.0,
+      "covered_lines": 18,
+      "missed_lines": 2,
       "omitted_lines": 43,
       "total_lines": 20
     },
@@ -1354,31 +1416,31 @@
         1,
         null,
         1,
-        5,
+        11,
         null,
         null,
         1,
-        2,
+        8,
         null,
         null,
         1,
-        5,
+        11,
         null,
         null,
         1,
-        5,
+        11,
         null,
-        5,
-        5,
-        5,
+        11,
+        11,
+        11,
         null,
-        5,
-        5,
+        11,
+        11,
         null,
         null,
-        4,
+        10,
         null,
-        4,
+        10,
         null,
         null,
         null,
@@ -1397,12 +1459,12 @@
   "groups": {
     "Controllers": {
       "lines": {
-        "covered": 99,
-        "missed": 35,
-        "omitted": 115,
-        "total": 134,
-        "percent": 73.88059701492537,
-        "strength": 1.171641791044776
+        "covered": 106,
+        "missed": 32,
+        "omitted": 122,
+        "total": 138,
+        "percent": 76.81159420289855,
+        "strength": 1.4927536231884058
       },
       "files": [
         "app/controllers/application_controller.rb",
@@ -1433,12 +1495,12 @@
     },
     "Models": {
       "lines": {
-        "covered": 49,
-        "missed": 2,
+        "covered": 50,
+        "missed": 1,
         "omitted": 42,
         "total": 51,
-        "percent": 96.07843137254902,
-        "strength": 1.6470588235294117
+        "percent": 98.03921568627452,
+        "strength": 2.9215686274509802
       },
       "files": [
         "app/models/application_record.rb",
@@ -1463,12 +1525,12 @@
     },
     "Helpers": {
       "lines": {
-        "covered": 6,
+        "covered": 8,
         "missed": 0,
-        "omitted": 6,
-        "total": 6,
+        "omitted": 24,
+        "total": 8,
         "percent": 100.0,
-        "strength": 1.0
+        "strength": 2.25
       },
       "files": [
         "app/helpers/application_helper.rb",
@@ -1520,12 +1582,12 @@
     },
     "Ungrouped": {
       "lines": {
-        "covered": 61,
-        "missed": 13,
+        "covered": 69,
+        "missed": 5,
         "omitted": 82,
         "total": 74,
-        "percent": 82.43243243243244,
-        "strength": 2.2432432432432434
+        "percent": 93.24324324324324,
+        "strength": 4.054054054054054
       },
       "files": [
         "app/services/midpoint_calculator_service.rb",
@@ -2203,6 +2265,129 @@
         },
         "app/services/place_search_service.rb": {
           "line": 50.0
+        },
+        "app/services/station_search_service.rb": {
+          "line": 90.9
+        }
+      }
+    },
+    {
+      "created_at": "2026-11-22T03:16:04Z",
+      "branch": "test/system-and-coverage-80",
+      "commit": "0ceb552c7dff448e6d2efcc6528a3edd43f0b879",
+      "totals": {
+        "line": 83.51
+      },
+      "groups": {
+        "Controllers": {
+          "line": 76.81
+        },
+        "Channels": {
+          "line": 0.0
+        },
+        "Models": {
+          "line": 98.03
+        },
+        "Mailers": {
+          "line": 0.0
+        },
+        "Helpers": {
+          "line": 100.0
+        },
+        "Views": {
+          "line": 100.0
+        },
+        "Jobs": {
+          "line": 0.0
+        },
+        "Libraries": {
+          "line": 100.0
+        },
+        "Ungrouped": {
+          "line": 93.24
+        }
+      },
+      "files": {
+        "app/channels/application_cable/channel.rb": {
+          "line": 0.0
+        },
+        "app/channels/application_cable/connection.rb": {
+          "line": 0.0
+        },
+        "app/controllers/application_controller.rb": {
+          "line": 92.3
+        },
+        "app/controllers/events_controller.rb": {
+          "line": 0.0
+        },
+        "app/controllers/meeting_events_controller.rb": {
+          "line": 100.0
+        },
+        "app/controllers/members_controller.rb": {
+          "line": 72.0
+        },
+        "app/controllers/passwords_controller.rb": {
+          "line": 77.77
+        },
+        "app/controllers/profiles_controller.rb": {
+          "line": 85.71
+        },
+        "app/controllers/sessions_controller.rb": {
+          "line": 73.33
+        },
+        "app/controllers/shares_controller.rb": {
+          "line": 100.0
+        },
+        "app/controllers/static_pages_controller.rb": {
+          "line": 0.0
+        },
+        "app/controllers/users_controller.rb": {
+          "line": 50.0
+        },
+        "app/helpers/application_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/events_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/profiles_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/sessions_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/static_pages_helper.rb": {
+          "line": 100.0
+        },
+        "app/helpers/users_helper.rb": {
+          "line": 100.0
+        },
+        "app/jobs/application_job.rb": {
+          "line": 0.0
+        },
+        "app/mailers/application_mailer.rb": {
+          "line": 0.0
+        },
+        "app/models/application_record.rb": {
+          "line": 100.0
+        },
+        "app/models/meeting_event.rb": {
+          "line": 100.0
+        },
+        "app/models/meeting_participant.rb": {
+          "line": 92.3
+        },
+        "app/models/member.rb": {
+          "line": 100.0
+        },
+        "app/models/user.rb": {
+          "line": 100.0
+        },
+        "app/services/midpoint_calculator_service.rb": {
+          "line": 96.87
+        },
+        "app/services/place_search_service.rb": {
+          "line": 90.0
         },
         "app/services/station_search_service.rb": {
           "line": 90.9
