@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   root "static_pages#top"
   get "up" => "rails/health#show", as: :rails_health_check
   get "/signup", to: "users#new"
+  get "terms", to: "static_pages#terms"
+  get "privacy", to: "static_pages#privacy"
 
   resources :users, only: %i[new create]
   get "login", to: "sessions#new"
