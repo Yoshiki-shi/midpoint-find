@@ -10,18 +10,18 @@ class PasswordsController < ApplicationController
 
     unless @user.authenticate(params.dig(:user, :current_password).to_s)
       @user.errors.add(:current_password, "が正しくありません")
-      return render :edit, status: :unprocessable_entity
+      return render :edit, status: :unprocessable_content
     end
 
     if params.dig(:user, :password).blank?
       @user.errors.add(:password, "を入力してください")
-      return render :edit, status: :unprocessable_entity
+      return render :edit, status: :unprocessable_content
     end
 
     if @user.update(password_params)
       redirect_to profile_path, notice: "パスワードを変更しました"
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 
