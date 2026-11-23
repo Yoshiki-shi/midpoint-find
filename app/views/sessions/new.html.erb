@@ -1,19 +1,21 @@
-<% provide(:title, "Log in") %>
-<h1>ログイン</h1>
+<div style="max-width: 440px; margin: 0 auto; background-color: #ffffff; border: 1.5px solid #9ca3af; border-radius: 10px; padding: 24px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
+  <h1 style="font-size: 18px; font-weight: 700; color: #111827; margin: 0 0 18px 0;">ログイン</h1>
 
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <%= form_with(scope: :session, url: login_path, local: true) do |f| %>
+  <%= form_with(scope: :session, url: login_path, local: true) do |f| %>
+    <div style="margin-bottom: 14px;">
+      <%= f.label :email, "メール", style: "display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 5px;" %>
+      <%= f.email_field :email, style: "width: 100%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 14px; background-color: #ffffff;" %>
+    </div>
 
-      <%= f.label :email, "メールアドレス" %>
-      <%= f.email_field :email, class: 'form-control' %>
+    <div style="margin-bottom: 18px;">
+      <%= f.label :password, "パスワード", style: "display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 5px;" %>
+      <%= f.password_field :password, style: "width: 100%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 14px; background-color: #ffffff;" %>
+    </div>
 
-      <%= f.label :password, "パスワード" %>
-      <%= f.password_field :password, class: 'form-control' %>
+    <%= f.submit "ログイン", style: "width: 100%; background-color: #6b7280; color: #ffffff; border: none; border-radius: 6px; padding: 10px; font-size: 14px; font-weight: 700; cursor: pointer;" %>
+  <% end %>
 
-      <%= f.submit "ログイン", class: "btn btn-primary" %>
-    <% end %>
-
-    <p>アカウントをお持ちですか？ <%= link_to "今すぐ登録！", signup_path %></p>
-  </div>
+  <p style="margin: 14px 0 0 0; font-size: 12px; color: #4b5563; text-align: center;">
+    アカウントをお持ちでない方は <%= link_to "新規登録", signup_path, style: "color: #111827; font-weight: 700;" %>
+  </p>
 </div>

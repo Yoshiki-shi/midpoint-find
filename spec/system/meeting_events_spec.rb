@@ -28,10 +28,10 @@ RSpec.describe "MeetingEvents E2E", type: :system do
       find("[data-field='station']").set("与野")
     end
 
-    click_button "中間駅とお店候補を検索する"
+    click_button "中間駅を計算する"
 
-    expect(page).to have_content("中野駅")
-    expect(page).to have_content("周辺のお店候補（3件）")
+    expect(page).to have_content("中間駅: 中野駅")
+    expect(page).to have_content("おすすめのお店候補")
 
     event = MeetingEvent.order(:id).last
     visit share_event_path(event.share_token)
@@ -45,7 +45,7 @@ RSpec.describe "MeetingEvents E2E", type: :system do
       find("[data-field='station']").set("高円寺")
     end
 
-    click_button "中間駅とお店候補を検索する"
+    click_button "中間駅を計算する"
 
     expect(page).to have_content("出発駅を2名以上入力してください")
   end

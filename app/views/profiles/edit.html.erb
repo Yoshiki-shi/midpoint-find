@@ -1,19 +1,20 @@
-<h1>プロフィール編集</h1>
+<div style="max-width: 460px; margin: 0 auto; background-color: #ffffff; border: 1.5px solid #9ca3af; border-radius: 10px; padding: 24px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
+  <h1 style="font-size: 18px; font-weight: 700; color: #111827; margin: 0 0 18px 0;">プロフィール編集</h1>
 
-<%= form_with model: @user, url: profile_path, local: true do |f| %>
-  <div class="field">
-    <%= f.label :name, "名前" %><br>
-    <%= f.text_field :name %>
-  </div>
+  <%= form_with model: @user, url: profile_path, local: true do |f| %>
+    <div style="margin-bottom: 12px;">
+      <%= f.label :name, "自分の名前", style: "display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 4px;" %>
+      <%= f.text_field :name, style: "width: 100%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 14px;" %>
+    </div>
 
-  <div class="field">
-    <%= f.label :nearest_station_name, "最寄り駅" %><br>
-    <%= f.text_field :nearest_station_name %>
-  </div>
+    <div style="margin-bottom: 18px;">
+      <%= f.label :nearest_station_name, "自分の最寄り駅（デフォルト入力用）", style: "display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 4px;" %>
+      <%= f.text_field :nearest_station_name, placeholder: "例: 高円寺", style: "width: 100%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 14px;" %>
+    </div>
 
-  <div class="actions">
-    <%= f.submit "更新する" %>
-  </div>
-<% end %>
-
-<%= link_to 'マイページに戻る', profile_path %>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <%= link_to "戻る", profile_path, style: "color: #4b5563; font-size: 13px; text-decoration: none;" %>
+      <%= f.submit "更新する", style: "background-color: #6b7280; color: #ffffff; border: none; border-radius: 6px; padding: 9px 18px; font-size: 13px; font-weight: 700; cursor: pointer;" %>
+    </div>
+  <% end %>
+</div>
