@@ -28,7 +28,7 @@ RSpec.describe "Passwords", type: :request do
           password_confirmation: "newpassword456"
         }
       }
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(user.reload.authenticate("oldpassword123")).to be_truthy
     end
   end
