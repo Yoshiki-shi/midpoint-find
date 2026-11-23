@@ -2,6 +2,14 @@ class MeetingEventsController < ApplicationController
   def new
     @meeting_event = MeetingEvent.new
     2.times { @meeting_event.meeting_participants.build }
+    @recent_meeting_events = if logged_in?
+                               current_user.meeting_events
+                                           .includes(:meeting_participants)
+                                           .order(created_at: :desc)
+                                           .limit(10)
+                             else
+                               []
+                             end
   end
 
   def create
