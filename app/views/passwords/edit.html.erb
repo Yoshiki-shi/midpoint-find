@@ -1,32 +1,35 @@
-<h1>パスワード変更</h1>
+<div style="max-width: 460px; margin: 0 auto; background-color: #ffffff; border: 1.5px solid #9ca3af; border-radius: 10px; padding: 24px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
+  <h1 style="font-size: 18px; font-weight: 700; color: #111827; margin: 0 0 18px 0;">パスワード変更</h1>
 
-<%= form_with model: @user, url: password_path, method: :patch do |f| %>
-  <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <ul>
-        <% @user.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+  <%= form_with model: @user, url: password_path, method: :patch, local: true do |f| %>
+    <% if @user.errors.any? %>
+      <div style="background-color: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; border-radius: 6px; padding: 10px 12px; font-size: 12px; margin-bottom: 14px;">
+        <ul style="margin: 0; padding-left: 18px;">
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div style="margin-bottom: 12px;">
+      <%= f.label :current_password, "現在のパスワード", style: "display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 4px;" %>
+      <%= f.password_field :current_password, style: "width: 100%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 14px;" %>
+    </div>
+
+    <div style="margin-bottom: 12px;">
+      <%= f.label :password, "新しいパスワード", style: "display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 4px;" %>
+      <%= f.password_field :password, style: "width: 100%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 14px;" %>
+    </div>
+
+    <div style="margin-bottom: 18px;">
+      <%= f.label :password_confirmation, "新しいパスワード（確認）", style: "display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 4px;" %>
+      <%= f.password_field :password_confirmation, style: "width: 100%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 14px;" %>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <%= link_to "戻る", profile_path, style: "color: #4b5563; font-size: 13px; text-decoration: none;" %>
+      <%= f.submit "変更する", style: "background-color: #6b7280; color: #ffffff; border: none; border-radius: 6px; padding: 9px 18px; font-size: 13px; font-weight: 700; cursor: pointer;" %>
     </div>
   <% end %>
-
-  <div>
-    <%= f.label :current_password, "現在のパスワード" %>
-    <%= f.password_field :current_password %>
-  </div>
-
-  <div>
-    <%= f.label :password, "新しいパスワード" %>
-    <%= f.password_field :password %>
-  </div>
-
-  <div>
-    <%= f.label :password_confirmation, "新しいパスワード（確認）" %>
-    <%= f.password_field :password_confirmation %>
-  </div>
-
-  <div>
-    <%= f.submit "変更する" %>
-  </div>
-<% end %>
+</div>

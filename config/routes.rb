@@ -12,7 +12,10 @@ Rails.application.routes.draw do
 
   resource :profile, only: %i[show edit update]
   resource :password, only: %i[edit update]
-  resources :members, except: %i[show new]
+
+  resources :members, only: %i[index create edit update destroy] do
+    patch :update_default_station, on: :collection
+  end
 
   resources :meeting_events, only: %i[new create show]
   get "share/:token", to: "shares#show", as: :share_event
