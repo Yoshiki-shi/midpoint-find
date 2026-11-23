@@ -35,6 +35,12 @@
       <%= f.text_field :title, placeholder: "例: 金曜の飲み会", style: "width: 100%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 13px;" %>
     </div>
 
+    <div style="font-size: 11px; color: #4b5563; margin-bottom: 6px;">
+      ※ 出発駅は最低2名分必要です（2行以下の場合、✕を押すと入力内容がクリアされます）。
+    </div>
+
+    <div data-participant-form-target="notice" style="display: none; background-color: #fffbeb; border: 1px solid #fcd34d; color: #92400e; border-radius: 6px; padding: 8px 10px; font-size: 12px; margin-bottom: 8px;"></div>
+
     <div data-participant-form-target="container" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px;">
       <%= f.fields_for :meeting_participants do |pf| %>
         <div class="participant-row" style="display: flex; gap: 8px; align-items: center;">

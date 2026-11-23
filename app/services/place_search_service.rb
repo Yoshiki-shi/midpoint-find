@@ -54,35 +54,28 @@ class PlaceSearchService
     return nil if results.empty?
 
     results.first(3).map do |place|
+      query_text = [place["name"], "#{station_name}駅"].compact.join(" ")
       {
         name: place["name"],
         rating: place["rating"] || "3.8",
         vicinity: place["vicinity"] || "#{station_name}駅周辺",
-        maps_url: "https://www.google.com/maps/search/?api=1&query=#{URI.encode_www_form_component(place['name'])}&query_place_id=#{place['place_id']}"
+        maps_url: "https://www.google.com/maps/search/?api=1&query=#{URI.encode_www_form_component(query_text)}&query_place_id=#{place['place_id']}"
       }
     end
   end
 
   def self.fallback_restaurants(station_name)
-    [
-      {
-        name: "#{station_name}駅前 個室ダイニング 和み",
-        rating: "4.2",
-        vicinity: "#{station_name}駅 徒歩2分（Googleマップで周辺検索）",
-        maps_url: "https://www.google.com/maps/search/?api=1&query=#{URI.encode_www_form_component("#{station_name}駅 居酒屋 個室")}"
-      },
-      {
-        name: "ビストロ＆バル #{station_name}テラス",
-        rating: "4.1",
-        vicinity: "#{station_name}駅 徒歩3分（Googleマップで周辺検索）",
-        maps_url: "https://www.google.com/maps/search/?api=1&query=#{URI.encode_www_form_component("#{station_name}駅 イタリアン バル")}"
-      },
-      {
-        name: "炭火やきとり・鮮魚 #{station_name}酒場",
-        rating: "4.0",
-        vicinity: "#{station_name}駅 徒歩1分（Googleマップで周辺検索）",
-        maps_url: "https://www.google.com/maps/search/?api=1&query=#{URI.encode_www_form_component("#{station_name}駅 焼き鳥 居酒屋")}"
-      }
+    candidates = [
+      { name: "#{station_name}駅前 個室ダイニング 和み", rating: "4.2", vicinity: "#{station_name}駅 徒歩2分（Googleマップで周辺検索）" },
+      { name: "ビストロ＆バル #{station_name}テラス", rating: "4.1", vicinity: "#{station_name}駅 徒歩3分（Googleマップで周辺検索）" },
+      { name: "炭火やきとり・鮮魚 #{station_name}酒場", rating: "4.0", vicinity: "#{station_name}駅 徒歩1分（Googleマップで周辺検索）" }
     ]
+
+    candidates.map do |shop|
+      query_text = "#{shop[:name]} #{station_name}駅"
+      shop.merge(
+        maps_url: "https://www.google.com/maps/search/?api=1&query=#{URI.encode_www_form_component(query_text)}"
+      )
+    end
   end
 end
