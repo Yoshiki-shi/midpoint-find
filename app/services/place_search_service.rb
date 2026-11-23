@@ -1,14 +1,42 @@
-require 'net/http'
-require 'uri'
-require 'json'
+require "net/http"
+require "uri"
+require "json"
 
 class PlaceSearchService
-  NEARBY_SEARCH_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
+  NEARBY_SEARCH_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json".freeze
+  CACHE_EXPIRES_IN = 12.hours
 
   def self.fetch_restaurants(lat:, lng:, station_name:, keyword: "居酒屋")
     api_key = ENV["GOOGLE_MAPS_API_KEY"]
     return fallback_restaurants(station_name) if api_key.blank? || lat.blank? || lng.blank?
 
+    cache_key = build_cache_key(lat: lat, lng: lng, station_name: station_name, keyword: keyword)
+    cached = Rails.cache.read(cache_key)
+    return cached if cached.present?
+
+    restaurants = request_nearby_places(
+      lat: lat,
+      lng: lng,
+      station_name: station_name,
+      keyword: keyword,
+      api_key: api_key
+    )
+    return fallback_restaurants(station_name) if restaurants.blank?
+
+    Rails.cache.write(cache_key, restaurants, expires_in: CACHE_EXPIRES_IN)
+    restaurants
+  rescue StandardError => e
+    Rails.logger.error("PlaceSearchService Error: #{e.message}")
+    fallback_restaurants(station_name)
+  end
+
+  def self.build_cache_key(lat:, lng:, station_name:, keyword:)
+    rounded_lat = lat.to_f.round(4)
+    rounded_lng = lng.to_f.round(4)
+    "place_search:v1:#{station_name}:#{rounded_lat}:#{rounded_lng}:#{keyword}"
+  end
+
+  def self.request_nearby_places(lat:, lng:, station_name:, keyword:, api_key:)
     uri = URI.parse(NEARBY_SEARCH_URL)
     uri.query = URI.encode_www_form(
       location: "#{lat},#{lng}",
@@ -20,10 +48,10 @@ class PlaceSearchService
     )
 
     res = Net::HTTP.get_response(uri)
-    return fallback_restaurants(station_name) unless res.is_a?(Net::HTTPSuccess)
+    return nil unless res.is_a?(Net::HTTPSuccess)
 
     results = JSON.parse(res.body)["results"] || []
-    return fallback_restaurants(station_name) if results.empty?
+    return nil if results.empty?
 
     results.first(3).map do |place|
       {
@@ -33,9 +61,6 @@ class PlaceSearchService
         maps_url: "https://www.google.com/maps/search/?api=1&query=#{URI.encode_www_form_component(place['name'])}&query_place_id=#{place['place_id']}"
       }
     end
-  rescue StandardError => e
-    Rails.logger.error("PlaceSearchService Error: #{e.message}")
-    fallback_restaurants(station_name)
   end
 
   def self.fallback_restaurants(station_name)
