@@ -54,11 +54,12 @@ class PlaceSearchService
     return nil if results.empty?
 
     results.first(3).map do |place|
-      query_text = [place["name"], "#{station_name}駅"].compact.join(" ")
+      vicinity = place["vicinity"] || "#{station_name}駅周辺"
+      query_text = [place["name"], vicinity].compact.join(" ")
       {
         name: place["name"],
         rating: place["rating"] || "3.8",
-        vicinity: place["vicinity"] || "#{station_name}駅周辺",
+        vicinity: vicinity,
         maps_url: "https://www.google.com/maps/search/?api=1&query=#{URI.encode_www_form_component(query_text)}&query_place_id=#{place['place_id']}"
       }
     end
@@ -66,9 +67,9 @@ class PlaceSearchService
 
   def self.fallback_restaurants(station_name)
     candidates = [
-      { name: "#{station_name}駅前 個室ダイニング 和み", rating: "4.2", vicinity: "#{station_name}駅 徒歩2分（Googleマップで周辺検索）" },
-      { name: "ビストロ＆バル #{station_name}テラス", rating: "4.1", vicinity: "#{station_name}駅 徒歩3分（Googleマップで周辺検索）" },
-      { name: "炭火やきとり・鮮魚 #{station_name}酒場", rating: "4.0", vicinity: "#{station_name}駅 徒歩1分（Googleマップで周辺検索）" }
+      { name: "#{station_name}駅前 個室ダイニング 和み", rating: "4.2", vicinity: "#{station_name}駅 徒歩2分" },
+      { name: "ビストロ＆バル #{station_name}テラス", rating: "4.1", vicinity: "#{station_name}駅 徒歩3分" },
+      { name: "炭火やきとり・鮮魚 #{station_name}酒場", rating: "4.0", vicinity: "#{station_name}駅 徒歩1分" }
     ]
 
     candidates.map do |shop|
