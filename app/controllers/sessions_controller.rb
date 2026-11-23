@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
     if user&.authenticate(password)
       reset_session
       session[:user_id] = user.id
-      redirect_to root_path, notice: "ログインしました"
+      redirect_to new_meeting_event_path, notice: "ログインしました"
     else
       flash.now[:alert] = "メールアドレスまたはパスワードが正しくありません"
       render :new, status: :unprocessable_content
