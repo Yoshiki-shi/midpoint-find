@@ -11,7 +11,7 @@ class UsersController < ApplicationController
       redirect_to root_path
     else
       #保存失敗時の新規登録画面を再表示
-      render :new , status: :unprocessable_entity
+      render :new , status: :unprocessable_content
     end
   end
 

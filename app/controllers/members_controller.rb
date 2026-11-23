@@ -13,7 +13,7 @@ class MembersController < ApplicationController
       redirect_to members_path, notice: "#{@member.name}（#{@member.station_name}駅）を登録しました"
     else
       @members = current_user.members.order(created_at: :asc)
-      render :index, status: :unprocessable_entity
+      render :index, status: :unprocessable_content
     end
   end
 
@@ -24,7 +24,7 @@ class MembersController < ApplicationController
     if @member.update(member_params)
       redirect_to members_path, notice: "メンバー情報を更新しました"
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

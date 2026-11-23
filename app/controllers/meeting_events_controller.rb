@@ -28,7 +28,7 @@ class MeetingEventsController < ApplicationController
     while @meeting_event.meeting_participants.size < 2
       @meeting_event.meeting_participants.build
     end
-    render :new, status: :unprocessable_entity
+    render :new, status: :unprocessable_content
   end
 
   def show
