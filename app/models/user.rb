@@ -10,6 +10,7 @@ class User < ApplicationRecord
   validates :name, presence: true, length: { maximum: 50 }
 
   has_many :members, dependent: :destroy
+  has_many :meeting_events, dependent: :nullify
 
   # メールアドレスのバリデーション
   # 空でないことと、文字数は255文字以内、メールアドレスの形式であること、そして一意であることを確認する

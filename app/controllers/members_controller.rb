@@ -33,6 +33,16 @@ class MembersController < ApplicationController
     redirect_to members_path, notice: "メンバーを削除しました", status: :see_other
   end
 
+  def update_default_station
+    if current_user.update(default_station_params)
+      redirect_to members_path, notice: "自分のデフォルト最寄り駅を更新しました"
+    else
+      @members = current_user.members.order(created_at: :asc)
+      @member = current_user.members.build
+      render :index, status: :unprocessable_content
+    end
+  end
+
   private
 
   def set_member
@@ -42,4 +52,9 @@ class MembersController < ApplicationController
   def member_params
     params.require(:member).permit(:name, :station_name, :lat, :lng)
   end
+
+  def default_station_params
+    params.require(:user).permit(:nearest_station_name)
+  end
+
 end

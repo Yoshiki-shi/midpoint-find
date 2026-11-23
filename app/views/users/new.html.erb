@@ -1,23 +1,37 @@
-<% provide(:title, 'Sign up') %>
-<h1>Sign up</h1>
+<div style="max-width: 440px; margin: 0 auto; background-color: #ffffff; border: 1.5px solid #9ca3af; border-radius: 10px; padding: 24px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
+  <h1 style="font-size: 18px; font-weight: 700; color: #111827; margin: 0 0 18px 0;">新規会員登録</h1>
 
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <%= form_with(model: @user, local: true) do |f| %>
-
-      <%= f.label :name, "名前" %>
-      <%= f.text_field :name, class: 'form-control' %>
-
-      <%= f.label :email, "メールアドレス" %>
-      <%= f.email_field :email, class: 'form-control' %>
-
-      <%= f.label :password, "パスワード" %>
-      <%= f.password_field :password, class: 'form-control' %>
-
-      <%= f.label :password_confirmation, "パスワード（確認用）" %>
-      <%= f.password_field :password_confirmation, class: 'form-control' %>
-
-      <%= f.submit "アカウントを作成する", class: "btn btn-primary" %>
+  <%= form_with(model: @user, local: true) do |f| %>
+    <% if @user.errors.any? %>
+      <div style="background-color: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; border-radius: 6px; padding: 10px 12px; font-size: 12px; margin-bottom: 14px;">
+        <ul style="margin: 0; padding-left: 18px;">
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
     <% end %>
-  </div>
+
+    <div style="margin-bottom: 12px;">
+      <%= f.label :name, "名前", style: "display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 4px;" %>
+      <%= f.text_field :name, style: "width: 100%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 14px;" %>
+    </div>
+
+    <div style="margin-bottom: 12px;">
+      <%= f.label :email, "メール", style: "display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 4px;" %>
+      <%= f.email_field :email, style: "width: 100%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 14px;" %>
+    </div>
+
+    <div style="margin-bottom: 12px;">
+      <%= f.label :password, "パスワード", style: "display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 4px;" %>
+      <%= f.password_field :password, style: "width: 100%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 14px;" %>
+    </div>
+
+    <div style="margin-bottom: 18px;">
+      <%= f.label :nearest_station_name, "デフォルト最寄り駅（任意）", style: "display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 4px;" %>
+      <%= f.text_field :nearest_station_name, placeholder: "例: 高円寺", style: "width: 100%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 14px;" %>
+    </div>
+
+    <%= f.submit "登録", style: "width: 100%; background-color: #6b7280; color: #ffffff; border: none; border-radius: 6px; padding: 10px; font-size: 14px; font-weight: 700; cursor: pointer;" %>
+  <% end %>
 </div>
