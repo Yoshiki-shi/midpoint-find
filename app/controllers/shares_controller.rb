@@ -9,7 +9,7 @@ class SharesController < ApplicationController
     title = @meeting_event.title.presence || "#{@meeting_event.midpoint_station_name}駅の集合場所提案"
     set_meta_tags(
       title: title,
-      og: { title: "#{title} | Meet Halfway" }
+      og: { title: "#{title} | キミが幹事だ！" }
     )
   end
 end

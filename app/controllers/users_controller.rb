@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       # 保存に成功した場合の処理（トップページへリダイレクト）
-      flash[:success] = "Meet Halfwayへようこそ！"
+      flash[:success] = "キミが幹事だ！へようこそ！"
       redirect_to root_path
     else
       #保存失敗時の新規登録画面を再表示

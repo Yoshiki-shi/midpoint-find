@@ -1,7 +1,7 @@
 module ApplicationHelper
   def default_meta_tags
     {
-      site: "Meet Halfway",
+      site: "キミが幹事だ！",
       reverse: true,
       separator: "|",
       description: "参加者の出発駅から最も遠い2人の中間駅と周辺のお店候補をかんたんに提案・共有できるWebアプリ",
