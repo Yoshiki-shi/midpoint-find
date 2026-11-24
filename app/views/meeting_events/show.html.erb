@@ -1,6 +1,10 @@
 <% share_url = share_event_url(@meeting_event.share_token) %>
+<% event_label = @meeting_event.title.presence || "#{@meeting_event.midpoint_station_name}駅での集合" %>
 
-<div style="max-width: 680px; margin: 0 auto; background-color: #ffffff; border: 1.5px solid #9ca3af; border-radius: 10px; padding: 24px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);" data-controller="clipboard" data-clipboard-url-value="<%= share_url %>">
+<div style="max-width: 680px; margin: 0 auto; background-color: #ffffff; border: 1.5px solid #9ca3af; border-radius: 10px; padding: 24px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);"
+     data-controller="clipboard"
+     data-clipboard-url-value="<%= share_url %>"
+     data-clipboard-title-value="<%= event_label %>">
   <div style="background-color: #f3f4f6; border: 1px solid #d1d5db; border-radius: 8px; padding: 18px; text-align: center; margin-bottom: 20px;">
     <div style="font-size: 12px; font-weight: 700; color: #4b5563; margin-bottom: 4px;">
       <%= @meeting_event.title.presence || "中間地点の最適駅" %>
@@ -40,9 +44,14 @@
 
   <div style="display: flex; flex-direction: column; gap: 8px;">
     <button type="button"
+            data-action="click->clipboard#shareLine"
+            style="width: 100%; background-color: #06C755; color: #ffffff; border: none; border-radius: 6px; padding: 10px; font-size: 13px; font-weight: 700; cursor: pointer;">
+      LINEで送る
+    </button>
+    <button type="button"
             data-action="click->clipboard#copy"
             style="width: 100%; background-color: #6b7280; color: #ffffff; border: none; border-radius: 6px; padding: 10px; font-size: 13px; font-weight: 700; cursor: pointer;">
-      共有用URLを発行・コピー
+      共有用URLをコピー
     </button>
     <%= link_to "ホームに戻る", new_meeting_event_path, style: "display: block; text-align: center; background-color: #ffffff; color: #1f2937; border: 1px solid #9ca3af; border-radius: 6px; padding: 9px; font-size: 13px; font-weight: 600; text-decoration: none;" %>
   </div>

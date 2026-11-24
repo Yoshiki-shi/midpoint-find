@@ -3,13 +3,13 @@
 
   <%= form_with(scope: :session, url: login_path, local: true) do |f| %>
     <div style="margin-bottom: 14px;">
-      <%= f.label :email, "メール", style: "display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 5px;" %>
-      <%= f.email_field :email, style: "width: 100%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 14px; background-color: #ffffff;" %>
+      <%= f.label :email, "メールアドレス", style: "display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 5px;" %>
+      <%= f.email_field :email, placeholder: "例: test@example.com", style: "width: 100%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 14px; background-color: #ffffff;" %>
     </div>
 
     <div style="margin-bottom: 18px;">
       <%= f.label :password, "パスワード", style: "display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 5px;" %>
-      <%= f.password_field :password, style: "width: 100%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 14px; background-color: #ffffff;" %>
+      <%= f.password_field :password, placeholder: "パスワードを入力", style: "width: 100%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 14px; background-color: #ffffff;" %>
     </div>
 
     <%= f.submit "ログイン", style: "width: 100%; background-color: #6b7280; color: #ffffff; border: none; border-radius: 6px; padding: 10px; font-size: 14px; font-weight: 700; cursor: pointer;" %>

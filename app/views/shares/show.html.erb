@@ -1,6 +1,6 @@
 <div style="max-width: 680px; margin: 0 auto; background-color: #ffffff; border: 1.5px solid #9ca3af; border-radius: 10px; padding: 24px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
   <div style="background-color: #f3f4f6; border: 1px solid #d1d5db; border-radius: 8px; padding: 18px; text-align: center; margin-bottom: 20px;">
-    <div style="font-size: 11px; font-weight: 700; color: #4b5563; margin-bottom: 4px;">閲覧専用</div>
+    <div style="font-size: 11px; font-weight: 700; color: #4b5563; margin-bottom: 4px;">共有リンク（閲覧専用）</div>
     <h1 style="font-size: 22px; font-weight: 800; color: #111827; margin: 0 0 4px 0;">
       <%= @meeting_event.title.presence || "#{@meeting_event.midpoint_station_name}駅" %>
     </h1>
@@ -8,7 +8,7 @@
       集合おすすめ駅: <%= @meeting_event.midpoint_station_name %>駅
     </div>
 
-    <div style="display: flex; flex-wrap: wrap; justify-center; gap: 6px;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 6px;">
       <% @meeting_event.meeting_participants.each do |participant| %>
         <% dist = MidpointCalculatorService.haversine_distance(participant.lat, participant.lng, @meeting_event.midpoint_lat, @meeting_event.midpoint_lng) %>
         <span style="background-color: #ffffff; border: 1px solid #d1d5db; border-radius: 6px; padding: 4px 10px; font-size: 12px; color: #1f2937;">
