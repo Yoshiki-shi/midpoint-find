@@ -20,6 +20,7 @@
           <% if controller_name == "meeting_events" && action_name == "show" %>
             <%= link_to "ホームに戻る", new_meeting_event_path, style: "background-color: #6b7280; color: #ffffff; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600;" %>
           <% else %>
+            <% unless controller_name == "static_pages" && action_name == "top" %>
             <nav style="display: flex; align-items: center; gap: 12px; font-size: 13px;">
               <% if logged_in? %>
                 <%= link_to "ホーム", new_meeting_event_path, style: "color: #374151; text-decoration: none; font-weight: 500;" %>
@@ -31,6 +32,7 @@
                 <%= link_to "新規登録", signup_path, style: "background-color: #6b7280; color: #ffffff; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-weight: 600;" %>
               <% end %>
             </nav>
+          <% end %>
           <% end %>
         </div>
       </header>
