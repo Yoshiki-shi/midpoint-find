@@ -15,7 +15,7 @@
       <header style="background-color: #ffffff; border-bottom: 1px solid #d1d5db;">
         <div style="max-width: 960px; margin: 0 auto; padding: 0 16px; height: 52px; display: flex; align-items: center; justify-content: space-between;">
           <% logo_path = logged_in? ? new_meeting_event_path : root_path %>
-          <%= link_to "キミが幹事だ！", logo_path, style: "font-weight: 700; color: #111827; text-decoration: none; font-size: 15px;" %>
+          <%= link_to logo_path, style: "font-weight: 700; color: #111827; text-decoration: none; font-size: 15px; display: inline-flex; align-items: center;" do %>キミが<span style="display: inline-block; color: #dc2626; border: 1.5px solid #dc2626; outline: 1px solid #dc2626; outline-offset: 1px; background-color: #fef2f2; padding: 0px 4px; margin: 0 3px; border-radius: 3px; font-weight: 900; font-size: 13px; line-height: 1.2; transform: rotate(-3deg);">幹事</span>だ！<% end %>
 
           <% if controller_name == "meeting_events" && action_name == "show" %>
             <%= link_to "ホームに戻る", new_meeting_event_path, style: "background-color: #6b7280; color: #ffffff; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600;" %>
