@@ -25,3 +25,8 @@ test_user.save!
   member.station_name = member_attrs[:station_name]
   member.save!
 end
+User.find_or_create_by!(email: "test@example.com") do |user|
+  user.name = "テスト幹事"
+  user.password = ENV.fetch("MAINTENANCE_USER_PASSWORD", "Password123!")
+  user.password_confirmation = user.password
+end
