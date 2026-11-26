@@ -17,6 +17,6 @@ Rails.application.routes.draw do
     patch :update_default_station, on: :collection
   end
 
-  resources :meeting_events, only: %i[new create show]
+  resources :meeting_events, only: %i[new create show destroy]
   get "share/:token", to: "shares#show", as: :share_event
 end

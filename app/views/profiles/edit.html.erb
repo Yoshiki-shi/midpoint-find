@@ -2,14 +2,24 @@
   <h1 style="font-size: 18px; font-weight: 700; color: #111827; margin: 0 0 18px 0;">プロフィール編集</h1>
 
   <%= form_with model: @user, url: profile_path, local: true do |f| %>
+    <% if @user.errors.any? %>
+      <div style="background-color: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; border-radius: 6px; padding: 10px 12px; font-size: 12px; margin-bottom: 14px;">
+        <ul style="margin: 0; padding-left: 18px;">
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
     <div style="margin-bottom: 12px;">
       <%= f.label :name, "自分の名前", style: "display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 4px;" %>
-      <%= f.text_field :name, style: "width: 100%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 14px;" %>
+      <%= f.text_field :name, placeholder: "例: 幹事太郎", style: "width: 100%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 14px;" %>
     </div>
 
     <div style="margin-bottom: 18px;">
-      <%= f.label :nearest_station_name, "自分の最寄り駅（デフォルト入力用）", style: "display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 4px;" %>
-      <%= f.text_field :nearest_station_name, placeholder: "例: 高円寺", style: "width: 100%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 14px;" %>
+      <%= f.label :email, "メールアドレス", style: "display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 4px;" %>
+      <%= f.email_field :email, placeholder: "例: test@example.com", style: "width: 100%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 14px;" %>
     </div>
 
     <div style="display: flex; justify-content: space-between; align-items: center;">

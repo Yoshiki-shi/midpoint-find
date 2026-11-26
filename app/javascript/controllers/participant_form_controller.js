@@ -3,67 +3,85 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["container", "template", "notice"]
 
-  addMember(event) {
-    const name = (event.currentTarget.dataset.name || "").trim()
-    const station = (event.currentTarget.dataset.station || "").trim()
-
-    if (this.isAlreadyAdded(name, station)) {
-      this.showNotice(`${name || station} はすでに追加されています。`)
-      return
-    }
-
-    this.clearNotice()
-    const emptyRow = this.findEmptyRow()
-
-    if (emptyRow) {
-      const nameInput = emptyRow.querySelector("[data-field='name']")
-      const stationInput = emptyRow.querySelector("[data-field='station']")
-      if (nameInput && name) nameInput.value = name
-      if (stationInput && station) stationInput.value = station
-      return
-    }
-
-    const row = this.appendRow()
-    if (!row) return
-    const nameInput = row.querySelector("[data-field='name']")
-    const stationInput = row.querySelector("[data-field='station']")
-    if (nameInput && name) nameInput.value = name
-    if (stationInput && station) stationInput.value = station
+  connect() {
+    this.hideNotice()
+    this.updateRemoveButtons()
   }
 
   add() {
-    this.clearNotice()
-    this.appendRow()
+    this.hideNotice()
+    const content = this.templateTarget.innerHTML.replace(/NEW_RECORD/g, Date.now().toString())
+    this.containerTarget.insertAdjacentHTML("beforeend", content)
+    this.updateRemoveButtons()
   }
 
   remove(event) {
+    this.hideNotice()
     const rows = this.containerTarget.querySelectorAll(".participant-row")
-    const row = event.currentTarget.closest(".participant-row")
-
     if (rows.length <= 2) {
-      if (row) {
-        const nameInput = row.querySelector("[data-field='name']")
-        const stationInput = row.querySelector("[data-field='station']")
-        if (nameInput) nameInput.value = ""
-        if (stationInput) stationInput.value = ""
-      }
-      this.showNotice("出発駅は最低2名分必要です（2行以下のため入力内容をクリアしました）。")
+      this.updateRemoveButtons()
       return
     }
 
-    this.clearNotice()
-    if (row) row.remove()
+    const row = event.target.closest(".participant-row")
+    if (row) {
+      row.remove()
+    }
+    this.updateRemoveButtons()
   }
 
-  isAlreadyAdded(name, station) {
+  addMember(event) {
+    this.hideNotice()
+    const name = event.currentTarget.dataset.name || ""
+    const station = event.currentTarget.dataset.station || ""
+    if (!station) return
+
     const rows = Array.from(this.containerTarget.querySelectorAll(".participant-row"))
-    return rows.some((row) => {
-      const rowName = (row.querySelector("[data-field='name']")?.value || "").trim()
-      const rowStation = (row.querySelector("[data-field='station']")?.value || "").trim()
-      if (name && station) {
-        return rowName === name && rowStation === station
+    const duplicate = rows.some((row) => {
+      const n = row.querySelector('[data-field="name"]')?.value.trim() || ""
+      const s = row.querySelector('[data-field="station"]')?.value.trim() || ""
+      return n === name && s === station
+    })
+
+    if (duplicate) {
+      this.showNotice(`「${name || station}（${station}）」はすでに追加されています。`)
+      return
+    }
+
+    const emptyRow = rows.find((row) => {
+      const n = row.querySelector('[data-field="name"]')?.value.trim() || ""
+      const s = row.querySelector('[data-field="station"]')?.value.trim() || ""
+      return n === "" && s === ""
+    })
+
+    if (emptyRow) {
+      const nameInput = emptyRow.querySelector('[data-field="name"]')
+      const stationInput = emptyRow.querySelector('[data-field="station"]')
+      if (nameInput) nameInput.value = name
+      if (stationInput) stationInput.value = station
+      this.updateRemoveButtons()
+      return
+    }
+
+    this.add()
+    const newRow = this.containerTarget.querySelector(".participant-row:last-child")
+    if (newRow) {
+      const nameInput = newRow.querySelector('[data-field="name"]')
+      const stationInput = newRow.querySelector('[data-field="station"]')
+      if (nameInput) nameInput.value = name
+      if (stationInput) stationInput.value = station
+    }
+    this.updateRemoveButtons()
+  }
+
+  updateRemoveButtons() {
+    const rows = this.containerTarget.querySelectorAll(".participant-row")
+    const showRemove = rows.length > 2
+    rows.forEach((row) => {
+      const btn = row.querySelector('[data-action*="participant-form#remove"]')
+      if (btn) {
+        btn.style.display = showRemove ? "inline-block" : "none"
       }
-      return Boolean(station && rowStation === station)
     })
   }
 
@@ -73,26 +91,9 @@ export default class extends Controller {
     this.noticeTarget.style.display = "block"
   }
 
-  clearNotice() {
+  hideNotice() {
     if (!this.hasNoticeTarget) return
     this.noticeTarget.textContent = ""
     this.noticeTarget.style.display = "none"
-  }
-
-  findEmptyRow() {
-    const rows = Array.from(this.containerTarget.querySelectorAll(".participant-row"))
-    return rows.find((row) => {
-      const stationInput = row.querySelector("[data-field='station']")
-      return stationInput && stationInput.value.trim() === ""
-    })
-  }
-
-  appendRow() {
-    if (!this.hasTemplateTarget) return null
-    const index = Date.now() + Math.floor(Math.random() * 1000)
-    const html = this.templateTarget.innerHTML.replace(/NEW_RECORD/g, index)
-    this.containerTarget.insertAdjacentHTML("beforeend", html)
-    const rows = this.containerTarget.querySelectorAll(".participant-row")
-    return rows[rows.length - 1]
   }
 }

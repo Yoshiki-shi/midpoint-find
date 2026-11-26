@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_23_042826) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_24_221241) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,6 +24,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_23_042826) do
     t.string "share_token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "scheduled_at"
+    t.text "note"
     t.index ["share_token"], name: "index_meeting_events_on_share_token", unique: true
     t.index ["user_id"], name: "index_meeting_events_on_user_id"
   end

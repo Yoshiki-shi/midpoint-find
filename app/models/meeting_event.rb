@@ -20,4 +20,5 @@ class MeetingEvent < ApplicationRecord
       errors.add(:base, "出発駅を2名以上入力してください")
     end
   end
+  validates :scheduled_at, presence: true
 end

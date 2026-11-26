@@ -2,23 +2,6 @@
   <div style="font-size: 11px; font-weight: 700; color: #6b7280; margin-bottom: 2px;">ホーム</div>
   <h1 style="font-size: 18px; font-weight: 700; color: #111827; margin: 0 0 14px 0;">参加メンバー出発駅入力</h1>
 
-  <% if logged_in? && current_user.members.any? %>
-    <div style="background-color: #f9fafb; border: 1px solid #d1d5db; border-radius: 8px; padding: 10px 12px; margin-bottom: 14px;">
-      <div style="font-size: 12px; font-weight: 600; color: #4b5563; margin-bottom: 8px;">登録メンバーから追加</div>
-      <div style="display: flex; flex-wrap: wrap; gap: 6px;">
-        <% current_user.members.each do |member| %>
-          <button type="button"
-                  data-action="click->participant-form#addMember"
-                  data-name="<%= member.name %>"
-                  data-station="<%= member.station_name %>"
-                  style="background-color: #ffffff; border: 1px solid #9ca3af; border-radius: 6px; padding: 4px 10px; font-size: 12px; color: #1f2937; cursor: pointer;">
-            ＋ <%= member.name %>（<%= member.station_name %>）
-          </button>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
-
   <%= form_with model: @meeting_event, local: true do |f| %>
     <% if @meeting_event.errors.any? %>
       <div style="background-color: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; border-radius: 6px; padding: 10px 12px; font-size: 12px; margin-bottom: 14px;">
@@ -35,8 +18,48 @@
       <%= f.text_field :title, placeholder: "例: 金曜の飲み会", style: "width: 100%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 13px;" %>
     </div>
 
+    <div style="margin-bottom: 16px;">
+      <label style="display: block; font-size: 12px; font-weight: 600; color: #374151; margin-bottom: 4px;">開催日時（必須）</label>
+      <% selected_date = params.dig(:meeting_event, :scheduled_date).presence || @meeting_event.scheduled_at&.to_date&.to_s %>
+      <% selected_hour = params.dig(:meeting_event, :scheduled_hour).presence || (@meeting_event.scheduled_at ? format("%02d", @meeting_event.scheduled_at.hour) : "19") %>
+      <% raw_minute = params.dig(:meeting_event, :scheduled_minute).presence || (@meeting_event.scheduled_at ? ((@meeting_event.scheduled_at.min / 5) * 5) : 0) %>
+      <% selected_minute = format("%02d", raw_minute.to_i) %>
+
+      <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+        <input type="date"
+               name="meeting_event[scheduled_date]"
+               value="<%= selected_date %>"
+               required
+               style="flex: 1; min-width: 150px; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 13px;">
+
+        <div style="display: flex; align-items: center; gap: 4px;">
+          <select name="meeting_event[scheduled_hour]"
+                  required
+                  style="border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 8px; font-size: 13px; background-color: #ffffff;">
+            <% (0..23).each do |h| %>
+              <% hh = format("%02d", h) %>
+              <option value="<%= hh %>" <%= "selected" if selected_hour.to_s == hh %>><%= hh %></option>
+            <% end %>
+          </select>
+          <span style="font-size: 13px; font-weight: 600; color: #374151;">時</span>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 4px;">
+          <select name="meeting_event[scheduled_minute]"
+                  required
+                  style="border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 8px; font-size: 13px; background-color: #ffffff;">
+            <% (0..55).step(5).each do |m| %>
+              <% mm = format("%02d", m) %>
+              <option value="<%= mm %>" <%= "selected" if selected_minute.to_s == mm %>><%= mm %></option>
+            <% end %>
+          </select>
+          <span style="font-size: 13px; font-weight: 600; color: #374151;">分</span>
+        </div>
+      </div>
+    </div>
+
     <div style="font-size: 11px; color: #4b5563; margin-bottom: 6px;">
-      ※ 出発駅は最低2名分必要です（2行以下の場合、✕を押すと入力内容がクリアされます）。
+      ※ 2名以上の出発駅を入力してください。
     </div>
 
     <div data-participant-form-target="notice" style="display: none; background-color: #fffbeb; border: 1px solid #fcd34d; color: #92400e; border-radius: 6px; padding: 8px 10px; font-size: 12px; margin-bottom: 8px;"></div>
@@ -46,7 +69,7 @@
         <div class="participant-row" style="display: flex; gap: 8px; align-items: center;">
           <%= pf.text_field :name, placeholder: "名前", data: { field: "name" }, style: "width: 32%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 13px;" %>
           <%= pf.text_field :station_name, required: true, placeholder: "出発駅（例: 新宿）", data: { field: "station" }, style: "flex: 1; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 13px;" %>
-          <button type="button" data-action="click->participant-form#remove" style="background: none; border: none; color: #6b7280; font-size: 14px; cursor: pointer; padding: 4px 6px;">✕</button>
+          <button type="button" data-action="click->participant-form#remove" style="display: none; background: none; border: none; color: #6b7280; font-size: 14px; cursor: pointer; padding: 4px 6px;">✕</button>
         </div>
       <% end %>
     </div>
@@ -59,10 +82,32 @@
       </div>
     </template>
 
-    <div style="margin-bottom: 14px;">
+    <div style="margin-bottom: 12px;">
       <button type="button" data-action="click->participant-form#add" style="background-color: #f3f4f6; border: 1px dashed #9ca3af; border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: 600; color: #374151; cursor: pointer;">
         ＋ メンバー追加
       </button>
+    </div>
+
+    <% if logged_in? && current_user.members.any? %>
+      <div style="background-color: #f9fafb; border: 1px solid #d1d5db; border-radius: 8px; padding: 10px 12px; margin-bottom: 14px;">
+        <div style="font-size: 12px; font-weight: 600; color: #4b5563; margin-bottom: 8px;">登録メンバーから追加</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+          <% current_user.members.each do |member| %>
+            <button type="button"
+                    data-action="click->participant-form#addMember"
+                    data-name="<%= member.name %>"
+                    data-station="<%= member.station_name %>"
+                    style="background-color: #ffffff; border: 1px solid #9ca3af; border-radius: 6px; padding: 4px 10px; font-size: 12px; color: #1f2937; cursor: pointer;">
+              ＋ <%= member.name %>（<%= member.station_name %>）
+            </button>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <div style="margin-bottom: 16px;">
+      <%= f.label :note, "備考（任意）", style: "display: block; font-size: 12px; font-weight: 600; color: #374151; margin-bottom: 4px;" %>
+      <%= f.text_area :note, rows: 3, placeholder: "例: 予約名「タナカ」、改札前に10分前集合、会費4,000円くらい など", style: "width: 100%; box-sizing: border-box; border: 1px solid #9ca3af; border-radius: 6px; padding: 8px 10px; font-size: 13px; line-height: 1.5;" %>
     </div>
 
     <%= f.submit "中間駅を計算する", style: "width: 100%; background-color: #6b7280; color: #ffffff; border: none; border-radius: 6px; padding: 10px; font-size: 14px; font-weight: 700; cursor: pointer;" %>
@@ -74,16 +119,20 @@
       <% if (@recent_meeting_events || []).any? %>
         <div style="display: flex; flex-direction: column; gap: 8px;">
           <% @recent_meeting_events.each do |event| %>
+            <% event_title = event.title.presence || (event.midpoint_station_name.present? ? "#{event.midpoint_station_name}駅周辺" : "中間駅の予定") %>
             <div style="background-color: #f9fafb; border: 1px solid #d1d5db; border-radius: 8px; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; gap: 8px;">
               <div>
                 <div style="font-size: 13px; font-weight: 700; color: #111827;">
-                  <%= event.title.presence || "#{event.midpoint_station_name.presence || '中間駅'}の予定" %>
+                  <%= event_title %>
                 </div>
                 <div style="font-size: 11px; color: #4b5563;">
-                  <%= event.midpoint_station_name.present? ? "中間駅: #{event.midpoint_station_name}" : "未計算" %>
+                  <%= event.scheduled_at.present? ? "#{event.scheduled_at.strftime('%m/%d %H:%M')} / " : "" %><%= event.midpoint_station_name.present? ? "中間駅: #{event.midpoint_station_name}駅" : "未計算" %>
                 </div>
               </div>
-              <%= link_to "結果を見る", meeting_event_path(event), style: "background-color: #ffffff; border: 1px solid #9ca3af; border-radius: 6px; padding: 5px 10px; font-size: 12px; color: #1f2937; text-decoration: none; font-weight: 600;" %>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <%= link_to "結果を見る", meeting_event_path(event), style: "background-color: #ffffff; border: 1px solid #9ca3af; border-radius: 6px; padding: 5px 10px; font-size: 12px; color: #1f2937; text-decoration: none; font-weight: 600;" %>
+                <%= link_to "削除", meeting_event_path(event), data: { turbo_method: :delete, turbo_confirm: "「#{event_title}」の履歴を削除してもよろしいですか？" }, style: "background-color: #ffffff; border: 1px solid #fca5a5; border-radius: 6px; padding: 5px 10px; font-size: 12px; color: #991b1b; text-decoration: none; font-weight: 600;" %>
+              </div>
             </div>
           <% end %>
         </div>
